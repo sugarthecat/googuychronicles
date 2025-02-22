@@ -12,6 +12,8 @@ class Level {
 class University extends Level {
     constructor(){
         super();
+        this.spawnpointx = 0;
+        this.spawnpointy = 0;
         this.rooms = [
             //third floor
             new Room(1, 3, 1), //small
@@ -32,7 +34,7 @@ class University extends Level {
             new Room(4, 2, 1), //staircase
 
             //first floor
-            new Room(0, 1, 1), //hallway
+            new Room(0, 1, 1), //hallway spawnpoint
             new Wall(1, 3),
             new Room(1, 1, 1), //small
             new Wall(2, 3),

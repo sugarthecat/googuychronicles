@@ -4,10 +4,10 @@ class GameScreen extends GUI {
         this.Reset();
     }
     Reset() {
-        this.player = new Player(0, 2);
+        this.level = new University();
+        this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
         this.camera = { x: 0, y: 0 }
-        this.level = new University();
     }
     Draw(x, y) {
         this.player.Update(this.level.rooms)
