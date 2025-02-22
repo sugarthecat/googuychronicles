@@ -28,12 +28,6 @@ function draw() {
     background(0);
     let mousePosition = getMousePosition()
     screens[screenOn].Draw(mousePosition.x,mousePosition.y);
-    fill(0)
-    noStroke()
-    rect(-xTranslation, 0, xTranslation, 400)
-    rect(600, 0, xTranslation, 400)
-    rect(0, -yTranslation, 600, yTranslation)
-    rect(0, 400, 600, yTranslation)
 }
 function mouseClicked() {
     let mousePosition = getMousePosition()
