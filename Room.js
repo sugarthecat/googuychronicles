@@ -29,3 +29,31 @@ class Room {
         pop()
     }
 }
+
+class SmallRoom extends Room{
+    constructor(x, floor, background){
+        super(x, floor);
+        this.width = 300;
+        this.background = background
+    }
+    Draw(){
+        push()
+        translate(this.x, this.y)
+        rect(-this.size / 2, - this.size / 2, this.size, this.size)
+        let img = this.background;
+    }
+}
+
+class MediumRoom extends Room{
+    constructor(x, floor){
+        super(x, floor);
+        this.width = 600;
+    }
+}
+
+class Medium extends Room{
+    constructor(x, floor){
+        super(x, floor);
+        this.width = 900;
+    }
+}

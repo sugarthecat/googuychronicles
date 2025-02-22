@@ -12,11 +12,13 @@ class Level {
 class University extends Level {
     constructor(){
         super();
+        this.possibleSmallRooms = [Assets.spritesheets.office, Assets.spritesheets.cafeteria];
         this.spawnpointx = 0;
         this.spawnpointy = 0;
         this.rooms = [
+            
             //third floor
-            new Room(1, 3, 1), //small
+            new SmallRoom(1, 3, this.possibleSmallRooms[Math.floor(Math.random() * possibleSmallRooms.length)]), //small
             new Room(2, 3, 1), //hallway
             new Room(3, 3, 1), //small
             new Room(4, 3, 1), //small
