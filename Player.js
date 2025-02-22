@@ -30,17 +30,14 @@ class Player {
                 let surface = room.surfaces[j];
                 if (surface instanceof HorizontalSurface) {
                     //if no y-overlap for the surface, skip
-                    if (abs (room.y + surface.y - this.y) > this.size/2) {
+                    if (abs(room.y + surface.y - this.y) >= this.size / 2) {
                         continue;
                     }
 
-                    if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
-                        newX = room.x + surface.x1 - this.size/2
-                        break;
-                    }
-                    if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
-                        newX = room.x + surface.x2 - this.size/2
-                        break;
+                    if (this.x + this.size / 2 < surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
+                        newX = room.x + surface.x1 - this.size / 2
+                    } else if (this.x - this.size / 2 > surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
+                        newX = room.x + surface.x2 - this.size / 2
                     }
                 }
             }
@@ -68,7 +65,7 @@ class Player {
                 let surface = room.surfaces[j];
                 if (surface instanceof HorizontalSurface) {
                     //if no x-overlap for the surface
-                    if (surface.x2 < this.x - this.size / 2 || surface.x1 > this.x + this.size / 2) {
+                    if (surface.x2 + room.x < this.x - this.size / 2 || surface.x1 + room.x > this.x + this.size / 2) {
                         continue;
                     }
 
@@ -83,7 +80,7 @@ class Player {
                         this.y = room.y + surface.y + this.size / 2
                         newY = this.y;
                         this.vertVelocity = 0;
-                        this.hanging = surface
+                        this.hanging = { x1: surface.x1 + room.x, x2: surface.x2 + room.x2, y: surface.y }
                         break;
                     }
 
