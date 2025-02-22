@@ -10,16 +10,22 @@ class Player {
         this.canJump = true;
         this.lookingRight = false;
         this.aniFrame = 0;
+        this.health = 1;
+        this.maxHealth = 3;
+        this.healingRate = 0;
     }
     Update(rooms) {
-        let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
-        let isLeft = keyIsDown(LEFT_ARROW) || keyIsDown(65);
-        if (this.hanging && !this.hanging.horizontal) {
-            isRight = false
-            isLeft = false
-        }
-        let newX = this.x + this.hVelocity * deltaTime / 1000
-        //hVelocity decreases by one every milisecond
+
+        //increment health 
+        this.health += this.healingRate * deltaTime / 2000
+        this.healingRate += deltaTime / 50000
+        this.healingRate = min(this.healingRate, 0.25)
+        this.health += this.healingRate * deltaTime / 2000
+        this.health = min(this.health, this.maxHealth)
+        this.UpdatePosition(rooms);
+    }
+    UpdatePosition(rooms) {
+        //handle velocity changes:
         if (abs(this.hVelocity) < deltaTime) {
             this.hVelocity = 0;
         } else if (this.hVelocity > 0) {
@@ -27,63 +33,7 @@ class Player {
         } else if (this.hVelocity < 0) {
             this.hVelocity += deltaTime;
         }
-        if (isRight) {
-            newX += deltaTime / 1000 * this.speed
-        }
-        if (isLeft) {
-            newX -= deltaTime / 1000 * this.speed
-        }
-        if(newX > this.x){
-            this.lookingRight = true;
-        }else if(newX < this.x){
-            this.lookingRight = false;
-        }
-        //x-based collision
-        for (let i = 0; i < rooms.length; i++) {
-            let room = rooms[i];
-            //if they have no y-overlap, we don't need to check this room
-            if (room.y > this.y + this.size / 2 || this.y - this.size / 2 > room.y + room.h) {
-                continue;
-            }
-
-            for (let j = 0; j < room.surfaces.length; j++) {
-                let surface = room.surfaces[j];
-                if (surface instanceof HorizontalSurface) {
-                    //if no y-overlap for the surface, skip
-                    if (abs(room.y + surface.y - this.y) >= this.size / 2) {
-                        continue;
-                    }
-
-                    if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
-                        newX = room.x + surface.x1 - this.size / 2
-                        this.hVelocity = 0
-                    } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
-                        newX = room.x + surface.x2 + this.size / 2
-                        this.hVelocity = 0
-                    }
-                }
-                if (surface instanceof VerticalSurface) {
-                    if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
-                        continue;
-                    }
-                    //Left-side hang collision
-                    if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
-                        newX = room.x + surface.x - this.size / 2
-                        this.hVelocity = 0
-                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
-                    }
-                    else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
-                        //Right-side hang collision
-                        newX = room.x + surface.x + this.size / 2
-                        this.hVelocity = 0
-                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
-                    }
-                }
-            }
-        }
-        this.x = newX;
-
-
+        //hang physics
         if (this.hanging) {
             if (this.hanging.horizontal) {
                 //No longer hanging if off of the surface
@@ -103,16 +53,22 @@ class Player {
                 }
             }
         }
+        this.UpdateXPosition(rooms);
+        this.UpdateYPosition(rooms);
+    }
+
+    UpdateYPosition(rooms) {
         //y-based collision
         let newY = this.y + this.vertVelocity * deltaTime / 1000;
         for (let i = 0; i < rooms.length; i++) {
+            //only deals with surfaces / collision
             let room = rooms[i];
             //if they have no x-overlap, we don't need to check this room
             if (room.x >= this.x + this.size / 2 || this.x - this.size / 2 >= room.x + room.w) {
                 continue;
             }
-            for (let j = 0; j < room.surfaces.length; j++) {
-                let surface = room.surfaces[j];
+            for (let j = 0; j < room.objects.length; j++) {
+                let surface = room.objects[j];
                 if (surface instanceof HorizontalSurface) {
                     //if no x-overlap for the surface, skip
                     if (surface.x2 + room.x <= this.x - this.size / 2 || surface.x1 + room.x >= this.x + this.size / 2) {
@@ -163,6 +119,73 @@ class Player {
             this.vertVelocity = min(10, this.vertVelocity)
         }
     }
+    UpdateXPosition(rooms) {
+
+        let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
+        let isLeft = keyIsDown(LEFT_ARROW) || keyIsDown(65);
+        if (this.hanging && !this.hanging.horizontal) {
+            isRight = false
+            isLeft = false
+        }
+        let newX = this.x + this.hVelocity * deltaTime / 1000
+        if (isRight) {
+            newX += deltaTime / 1000 * this.speed
+        }
+        if (isLeft) {
+            newX -= deltaTime / 1000 * this.speed
+        }
+        //look right if moving right
+        if (newX > this.x) {
+            this.lookingRight = true;
+        } else if (newX < this.x) {
+            this.lookingRight = false;
+        }
+        //x-based collision
+        for (let i = 0; i < rooms.length; i++) {
+            let room = rooms[i];
+            //if they have no y-overlap, we don't need to check this room
+            if (room.y > this.y + this.size / 2 || this.y - this.size / 2 > room.y + room.h) {
+                continue;
+            }
+
+            for (let j = 0; j < room.objects.length; j++) {
+                let surface = room.objects[j];
+                //only deals with surfaces / collision
+                if (surface instanceof HorizontalSurface) {
+                    //if no y-overlap for the surface, skip
+                    if (abs(room.y + surface.y - this.y) >= this.size / 2) {
+                        continue;
+                    }
+
+                    if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
+                        newX = room.x + surface.x1 - this.size / 2
+                        this.hVelocity = 0
+                    } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
+                        newX = room.x + surface.x2 + this.size / 2
+                        this.hVelocity = 0
+                    }
+                }
+                if (surface instanceof VerticalSurface) {
+                    if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
+                        continue;
+                    }
+                    //Left-side hang collision
+                    if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
+                        newX = room.x + surface.x - this.size / 2
+                        this.hVelocity = 0
+                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
+                    }
+                    else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
+                        //Right-side hang collision
+                        newX = room.x + surface.x + this.size / 2
+                        this.hVelocity = 0
+                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
+                    }
+                }
+            }
+        }
+        this.x = newX;
+    }
     Jump() {
         if (this.hanging) {
             if (!this.hanging.horizontal) {
@@ -205,7 +228,7 @@ class Player {
                 - 20,
                 - 20,
                 40, 40,
-                0,  img.height/2 * floor (this.aniFrame), img.width, img.height / 2)
+                0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
         }
         pop()
         this.aniFrame += deltaTime / 1000

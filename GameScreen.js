@@ -19,14 +19,19 @@ class GameScreen extends GUI {
         let targetCameraX = -this.player.x + 300;
         let targetCameraY = -floor((this.player.y) / 300) * 300 + 200 - 150;
         //interpolate camera position;
-        this.camera.x = lerp (this.camera.x,targetCameraX, min(1,deltaTime / 100))
-        this.camera.y = lerp (this.camera.y,targetCameraY, min(1,deltaTime / 100))
+        this.camera.x = lerp(this.camera.x, targetCameraX, min(1, deltaTime / 100))
+        this.camera.y = lerp(this.camera.y, targetCameraY, min(1, deltaTime / 100))
         translate(this.camera.x, this.camera.y)
         this.level.Draw()
         fill(0, 0, 255)
         this.player.Draw()
         pop()
+        fill(0)
+        rect(0, 0, 100, 50)
+        fill(255, 0, 0)
+        rect(0, 0, 100 * this.player.health / this.player.maxHealth, 50)
         pop()
+
         super.Draw(x, y);
     }
     keyPressed(key) {

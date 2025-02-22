@@ -4,11 +4,11 @@ class Room {
         this.y = -floor * 300;
         this.w = width * 300;
         this.h = 300;
-        this.surfaces = relativeSurfaces;
+        this.objects = relativeSurfaces;
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
-            this.surfaces.push(new HorizontalSurface(0, this.w, 25))
-            this.surfaces.push(new HorizontalSurface(0, this.w, this.h - 50))
+            this.objects.push(new HorizontalSurface(0, this.w, 25))
+            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50))
         }
     }
     Draw() {
@@ -17,13 +17,13 @@ class Room {
         fill(100, 0, 0)
         rect(this.x, this.y, this.w, this.h)
         translate(this.x, this.y)
-        for (let i = 0; i < this.surfaces.length; i++) {
-            let surface = this.surfaces[i];
+        for (let i = 0; i < this.objects.length; i++) {
+            let object = this.objects[i];
             strokeWeight(5);
-            if (surface instanceof HorizontalSurface) {
-                line(surface.x1, surface.y, surface.x2, surface.y)
-            } else if (surface instanceof VerticalSurface) {
-                line(surface.x, surface.y1, surface.x, surface.y2)
+            if (object instanceof HorizontalSurface) {
+                line(object.x1, object.y, object.x2, object.y)
+            } else if (object instanceof VerticalSurface) {
+                line(object.x, object.y1, object.x, object.y2)
             }
         }
         pop()

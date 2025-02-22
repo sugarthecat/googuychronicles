@@ -4,7 +4,7 @@ class Door extends Room {
         this.x = x * 300 - 25
         this.w = 50;
         //add ceiling and floor by default
-        this.surfaces = [
+        this.objects = [
             new VerticalSurface(50, 0, 150),
             new VerticalSurface(0, 0, 150),
             new HorizontalSurface(0, 50, 150)
