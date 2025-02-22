@@ -6,11 +6,11 @@ let scaleFactor = 1;
 let volume = 1;
 let screens;
 function preload() {
-    screens = { "title": new TitleScreen(), "game": new GameScreen() }
     Assets.loadAssets()
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
+    screens = { "title": new TitleScreen(), "game": new GameScreen() }
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);

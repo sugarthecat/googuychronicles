@@ -18,7 +18,7 @@ class University extends Level {
         this.rooms = [
             
             //third floor
-            new SmallRoom(1, 3, Assets.spritesheets.office), //small this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)
+            new SmallRoom(1, 3, Assets.rooms.office), //small this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)
             new Room(2, 3, 1), //hallway
             new Room(3, 3, 1), //small
             new Room(4, 3, 1), //small

@@ -1,5 +1,5 @@
 class Room {
-    constructor(x, floor, width, relativeSurfaces=[], AddCeilingAndFloor = true) {
+    constructor(x, floor, width, relativeSurfaces = [], AddCeilingAndFloor = true) {
         this.x = x * 300;
         this.y = -floor * 300;
         this.w = width * 300;
@@ -30,29 +30,28 @@ class Room {
     }
 }
 
-class SmallRoom extends Room{
-    constructor(x, floor, background){
-        super(x, floor);
-        this.width = 300;
+class SmallRoom extends Room {
+    constructor(x, floor, background) {
+        super(x, floor, 1);
+        this.w = 300;
         this.background = background
     }
-    Draw(){
+    Draw() {
         push()
         translate(this.x, this.y)
-        image(this.background,this.x,this.y,this.w,this.h)
-        let img = this.background;
+        image(this.background, this.x, this.y, this.w, this.h)
     }
 }
 
-class MediumRoom extends Room{
-    constructor(x, floor){
+class MediumRoom extends Room {
+    constructor(x, floor) {
         super(x, floor);
         this.width = 600;
     }
 }
 
-class Medium extends Room{
-    constructor(x, floor){
+class Medium extends Room {
+    constructor(x, floor) {
         super(x, floor);
         this.width = 900;
     }
