@@ -2,12 +2,14 @@ class Player {
     constructor(roomX, roomY) {
         this.x = 150 + roomX * 300;
         this.y = -150 - roomY * 300;
-        this.size = 40;
+        this.size = 30;
         this.speed = 100;
         this.vertVelocity = 0;
         this.hVelocity = 0;
         this.hanging = false;
         this.canJump = true;
+        this.lookingRight = false;
+        this.aniFrame = 0;
     }
     Update(rooms) {
         let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
@@ -30,6 +32,11 @@ class Player {
         }
         if (isLeft) {
             newX -= deltaTime / 1000 * this.speed
+        }
+        if(newX > this.x){
+            this.lookingRight = true;
+        }else if(newX < this.x){
+            this.lookingRight = false;
         }
         //x-based collision
         for (let i = 0; i < rooms.length; i++) {
@@ -101,14 +108,14 @@ class Player {
         for (let i = 0; i < rooms.length; i++) {
             let room = rooms[i];
             //if they have no x-overlap, we don't need to check this room
-            if (room.x > this.x + this.size / 2 || this.x - this.size / 2 > room.x + room.w) {
+            if (room.x >= this.x + this.size / 2 || this.x - this.size / 2 >= room.x + room.w) {
                 continue;
             }
             for (let j = 0; j < room.surfaces.length; j++) {
                 let surface = room.surfaces[j];
                 if (surface instanceof HorizontalSurface) {
                     //if no x-overlap for the surface, skip
-                    if (surface.x2 + room.x < this.x - this.size / 2 || surface.x1 + room.x > this.x + this.size / 2) {
+                    if (surface.x2 + room.x <= this.x - this.size / 2 || surface.x1 + room.x >= this.x + this.size / 2) {
                         continue;
                     }
                     //Collide on some Hsurface below the player
@@ -133,7 +140,7 @@ class Player {
 
                 if (surface instanceof VerticalSurface) {
 
-                    if (surface.x + room.x < this.x - this.size / 2 || surface.x + room.x > this.x + this.size / 2) {
+                    if (surface.x + room.x <= this.x - this.size / 2 || surface.x + room.x >= this.x + this.size / 2) {
                         continue;
                     }
 
@@ -175,6 +182,33 @@ class Player {
         }
     }
     Draw() {
-        rect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size)
+        push()
+        translate(this.x, this.y)
+        rect(-this.size / 2, - this.size / 2, this.size, this.size)
+        let img = Assets.spritesheets.googuy
+
+        if (this.hanging && this.hanging.horizontal) {
+            scale(1, -1)
+        }
+        if (this.hanging && !this.hanging.horizontal) {
+            if (this.hanging.x > this.x) {
+                scale(1, -1)
+                rotate(-PI / 2)
+            } else {
+                rotate(PI / 2)
+            }
+        } else if (!this.lookingRight) {
+            scale(-1, 1)
+        }
+        if (this.canJump || this.hanging) {
+            image(img,
+                - 20,
+                - 20,
+                40, 40,
+                0,  img.height/2 * floor (this.aniFrame), img.width, img.height / 2)
+        }
+        pop()
+        this.aniFrame += deltaTime / 1000
+        this.aniFrame = this.aniFrame % 2;
     }
 }
