@@ -54,6 +54,7 @@ class Player {
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x }
                     } else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         newX = room.x + surface.x + this.size / 2
+                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x }
                     }
                 }
             }
@@ -119,9 +120,9 @@ class Player {
                         continue;
                     }
 
-                    if (this.y + this.size / 2 < surface.y + room.y && newY + this.size / 2 > surface.y1 + room.y) {
+                    if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2
-                    } else if (this.y - this.size / 2 > surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
+                    } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2
                     }
                 }
