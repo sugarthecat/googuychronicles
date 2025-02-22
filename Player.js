@@ -137,9 +137,11 @@ class Player {
                     }
 
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
-                        newY = room.y + surface.y1 - this.size / 2
+                        newY = room.y + surface.y1 - this.size / 2;
+                        this.vertVelocity = 0;
                     } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
-                        newY = room.y + surface.y2 + this.size / 2
+                        newY = room.y + surface.y2 + this.size / 2;
+                        this.vertVelocity = 0;
                     }
                 }
 
