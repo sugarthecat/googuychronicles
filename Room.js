@@ -8,7 +8,10 @@ class Room {
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
             this.objects.push(new HorizontalSurface(0, this.w, 25))
-            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50))
+            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50)),
+            this.objects.push(new HazardZone(50,50,50,0.5)),
+            this.objects.push(new HazardZone(150,50,50,1)),
+            this.objects.push(new HazardZone(250,50,50,2))
         }
     }
     Draw() {
@@ -17,14 +20,10 @@ class Room {
         fill(100, 0, 0)
         rect(this.x, this.y, this.w, this.h)
         translate(this.x, this.y)
+        strokeWeight(5);
         for (let i = 0; i < this.objects.length; i++) {
             let object = this.objects[i];
-            strokeWeight(5);
-            if (object instanceof HorizontalSurface) {
-                line(object.x1, object.y, object.x2, object.y)
-            } else if (object instanceof VerticalSurface) {
-                line(object.x, object.y1, object.x, object.y2)
-            }
+            object.Draw();
         }
         pop()
     }
