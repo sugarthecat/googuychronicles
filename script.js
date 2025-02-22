@@ -6,14 +6,16 @@ let scaleFactor = 1;
 let volume = 1;
 let screens;
 function preload() {
-    screens = {"title": new TitleScreen(), "game": new GameScreen()}
+    screens = { "title": new TitleScreen(), "game": new GameScreen() }
     Assets.loadAssets()
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
 }
-function draw() {
+function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
+}
+function draw() {
 
     if (windowWidth / SCREEN_DIMENSIONS.x < windowHeight / SCREEN_DIMENSIONS.y) {
         scaleFactor = windowWidth / SCREEN_DIMENSIONS.x
@@ -27,14 +29,14 @@ function draw() {
     scale(scaleFactor, scaleFactor)
     background(0);
     let mousePosition = getMousePosition()
-    screens[screenOn].Draw(mousePosition.x,mousePosition.y);
+    screens[screenOn].Draw(mousePosition.x, mousePosition.y);
 }
 function mouseClicked() {
     let mousePosition = getMousePosition()
-    screens[screenOn].HandleClick(mousePosition.x,mousePosition.y);
+    screens[screenOn].HandleClick(mousePosition.x, mousePosition.y);
 }
-function keyPressed(){
-    if(screenOn == "game"){
+function keyPressed() {
+    if (screenOn == "game") {
         screens.game.keyPressed(key)
     }
 }

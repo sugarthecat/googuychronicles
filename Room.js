@@ -7,8 +7,8 @@ class Room {
         this.surfaces = relativeSurfaces;
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
-            this.surfaces.push(new Surface(0, this.w, 0))
-            this.surfaces.push(new Surface(0, this.w, this.h))
+            this.surfaces.push(new HorizontalSurface(0, this.w, 0))
+            this.surfaces.push(new HorizontalSurface(0, this.w, this.h))
         }
     }
     Draw() {
@@ -25,10 +25,17 @@ class Room {
         pop()
     }
 }
-class Surface {
+class HorizontalSurface {
     constructor(leftX, rightX, yPos) {
         this.x1 = leftX;
         this.x2 = rightX;
         this.y = yPos;
+    }
+}
+class VerticalSurface {
+    constructor(xPos, topY, bottomY) {
+        this.x = xPos;
+        this.y1 = topY;
+        this.y2 = bottomY;
     }
 }

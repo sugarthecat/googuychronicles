@@ -11,52 +11,82 @@ class Player {
     Update(rooms) {
         let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
         let isLeft = keyIsDown(LEFT_ARROW) || keyIsDown(65);
-        if (isLeft && isRight) {
-            isLeft = false;
-            isRight = false;
-        }
+        let newX = this.x
         if (isRight) {
-            this.x += deltaTime / 1000 * this.speed
+            newX += deltaTime / 1000 * this.speed
         }
         if (isLeft) {
-            this.x -= deltaTime / 1000 * this.speed
+            newX -= deltaTime / 1000 * this.speed
         }
-        if(this.hanging){
-            if(this.hanging.x1 > this.x + this.size/2){
+        //x-based collision
+        for (let i = 0; i < rooms.length; i++) {
+            let room = rooms[i];
+            //if they have no overlap, keep looking within the room
+            if (room.y > this.y + this.size / 2 || this.y - this.size / 2 > room.y + room.h) {
+                continue;
+            }
+
+            for (let j = 0; j < room.surfaces.length; j++) {
+                let surface = room.surfaces[j];
+                if (surface instanceof HorizontalSurface) {
+                    //if no y-overlap for the surface, skip
+                    if (abs (room.y + surface.y - this.y) > this.size/2) {
+                        continue;
+                    }
+
+                    if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
+                        newX = room.x + surface.x1 - this.size/2
+                        break;
+                    }
+                    if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
+                        newX = room.x + surface.x2 - this.size/2
+                        break;
+                    }
+                }
+            }
+        }
+        this.x = newX;
+
+
+        if (this.hanging) {
+            if (this.hanging.x1 > this.x + this.size / 2) {
                 this.hanging = false;
             }
-            if(this.hanging.x2 < this.x - this.size/2){
+            if (this.hanging.x2 < this.x - this.size / 2) {
                 this.hanging = false;
             }
         }
-        //vertical
+        //y-based collision
         let newY = this.y + this.vertVelocity * deltaTime / 1000;
         for (let i = 0; i < rooms.length; i++) {
             let room = rooms[i];
             //if they have no overlap, keep looking within the room
-            if (room.x > this.x + this.size / 2 || this.x - this.size / 2 > room.w + room.x) {
+            if (room.x > this.x + this.size / 2 || this.x - this.size / 2 > room.x + room.w) {
                 continue;
             }
             for (let j = 0; j < room.surfaces.length; j++) {
                 let surface = room.surfaces[j];
-                //if no x-overlap for the surface
-                if (surface.x2 < this.x - this.size / 2 || surface.x1 > this.x + this.size / 2) {
-                    continue;
-                }
+                if (surface instanceof HorizontalSurface) {
+                    //if no x-overlap for the surface
+                    if (surface.x2 < this.x - this.size / 2 || surface.x1 > this.x + this.size / 2) {
+                        continue;
+                    }
 
-                if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
-                    this.y = room.y + surface.y - this.size / 2
-                    newY = this.y;
-                    this.vertVelocity = 0;
-                    this.canJump = true;
-                    break;
-                }
-                if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
-                    this.y = room.y + surface.y + this.size / 2
-                    newY = this.y;
-                    this.vertVelocity = 0;
-                    this.hanging = surface
-                    break;
+                    if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
+                        this.y = room.y + surface.y - this.size / 2
+                        newY = this.y;
+                        this.vertVelocity = 0;
+                        this.canJump = true;
+                        break;
+                    }
+                    if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
+                        this.y = room.y + surface.y + this.size / 2
+                        newY = this.y;
+                        this.vertVelocity = 0;
+                        this.hanging = surface
+                        break;
+                    }
+
                 }
             }
         }
@@ -75,7 +105,6 @@ class Player {
         }
     }
     Draw() {
-
         rect(this.x - this.size / 2, this.y - this.size / 2, this.size, this.size)
     }
 }
