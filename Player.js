@@ -108,6 +108,7 @@ class Player {
                 if (surface instanceof HorizontalSurface) {
                     //if no x-overlap for the surface, skip
                     if (surface.x2 + room.x < this.x - this.size / 2 || surface.x1 + room.x > this.x + this.size / 2) {
+                        console.log(0)
                         continue;
                     }
                     //Collide on some Hsurface below the player
