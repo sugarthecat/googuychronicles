@@ -7,7 +7,7 @@ class GameScreen extends GUI {
         this.player = new Player(0,2);
         this.elements = []
         this.camera = { x: 0, y: 0 }
-        this.rooms = [new Room(0, 1, 1, []),new Room(0, 2, 1, []),new Room(0, 3, 1, []),]
+        this.rooms = [new Room(0, 1, 1, []),new Room(0, 2, 2, []),new Room(0, 3, 1, []),]
     }
     Draw(x, y) {
         this.player.Update(this.rooms)
