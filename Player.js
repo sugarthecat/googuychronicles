@@ -48,23 +48,27 @@ class Player {
                     }
 
                     if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
+                        console.log(surface)
                         newX = room.x + surface.x1 - this.size / 2
                         this.hVelocity = 0
                     } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
+                        console.log(surface)
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
                     }
                 }
                 if (surface instanceof VerticalSurface) {
-                    if (surface.y + room.y1 < this.y - this.size / 2 || surface.y + room.y2 > this.y + this.size / 2) {
+                    if (surface.y2 + room.y < this.y - this.size / 2 || surface.y1 + room.y > this.y + this.size / 2) {
                         continue;
                     }
                     //Left-side hang collision
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
+                        console.log(surface)
                         newX = room.x + surface.x - this.size / 2
                         this.hVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     } else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
+                        console.log(surface)
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
                         this.hVelocity = 0
@@ -159,16 +163,16 @@ class Player {
                 this.vertVelocity = -300
                 //Wall jump
                 if (this.hanging.x < this.x) {
-                    this.hVelocity = 500
+                    this.hVelocity = 300
                 } else {
-                    this.hVelocity = -500
+                    this.hVelocity = -300
                 }
             }
             this.hanging = false;
 
         } else if (this.canJump) {
             this.canJump = false;
-            this.vertVelocity = -600;
+            this.vertVelocity = -500;
         }
     }
     Draw() {
