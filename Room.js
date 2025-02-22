@@ -21,10 +21,8 @@ class Room {
             let surface = this.surfaces[i];
             strokeWeight(5);
             if (surface instanceof HorizontalSurface) {
-
                 line(surface.x1, surface.y, surface.x2, surface.y)
             } else if (surface instanceof VerticalSurface) {
-
                 line(surface.x, surface.y1, surface.x, surface.y2)
             }
         }

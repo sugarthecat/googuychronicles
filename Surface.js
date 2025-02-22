@@ -1,9 +1,10 @@
 
 class HorizontalSurface {
-    constructor(leftX, rightX, yPos) {
+    constructor(leftX, rightX, yPos, sticky=true) {
         this.x1 = leftX;
         this.x2 = rightX;
         this.y = yPos;
+        this.sticky = sticky;
     }
 }
 class VerticalSurface {
