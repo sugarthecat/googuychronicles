@@ -4,7 +4,8 @@ class GameScreen extends GUI {
         this.Reset();
     }
     Reset() {
-        this.player = new Player(0, 2);
+        this.player = new Player(1, 2);
+        this.level = new University();
         this.elements = []
         this.camera = { x: 0, y: 0 }
     }
