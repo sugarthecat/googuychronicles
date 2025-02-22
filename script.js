@@ -33,6 +33,11 @@ function mouseClicked() {
     let mousePosition = getMousePosition()
     screens[screenOn].HandleClick(mousePosition.x,mousePosition.y);
 }
+function keyPressed(){
+    if(screenOn == "game"){
+        screens.game.keyPressed(key)
+    }
+}
 function getMousePosition() {
     let mousePosition = { x: mouseX, y: mouseY }
 

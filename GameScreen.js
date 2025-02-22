@@ -4,28 +4,33 @@ class GameScreen extends GUI {
         this.Reset();
     }
     Reset() {
-        this.player = new Player();
+        this.player = new Player(0,2);
         this.elements = []
         this.camera = { x: 0, y: 0 }
+        this.rooms = [new Room(0, 1, 1, []),new Room(0, 2, 1, []),new Room(0, 3, 1, []),]
     }
     Draw(x, y) {
-        this.player.Update()
+        this.player.Update(this.rooms)
         push()
         noStroke()
         fill(255)
         rect(0, 0, 600, 400)
         push()
         let targetCameraX = -this.player.x + 300;
-        let targetCameraY = -this.player.y + 200;
-        translate(targetCameraX,targetCameraY)
-        fill (0)
-        rect(0,80,10,10)
-        rect(100,80,10,10)
-        rect(250,80,10,10)
+        let targetCameraY = -floor((this.player.y) / 300) * 300 + 200 -150;
+        translate(targetCameraX, targetCameraY)
+        for(let i = 0; i<this.rooms.length; i++){
+            this.rooms[i].Draw();
+        }
         fill(0, 0, 255)
-        rect(this.player.x - 25, this.player.y - 25, 50, 50)
+        this.player.Draw()
         pop()
         pop()
         super.Draw(x, y);
+    }
+    keyPressed(key){
+        if(key == " "){
+            this.player.Jump();
+        }
     }
 }
