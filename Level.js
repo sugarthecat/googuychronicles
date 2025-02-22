@@ -2,6 +2,11 @@ class Level {
     constructor(){
         this.rooms = [];
     }
+    Draw(){
+        for (let i = 0; i < this.rooms.length; i++) {
+            this.rooms[i].Draw();
+        }
+    }
 }
 
 class University extends Level {
@@ -36,7 +41,7 @@ class University extends Level {
             new Room(3, 1, 1), //small
             new Wall(4, 3),
             new Room(4, 1, 2), //medium
-            new Wall(5, 3),
+            new Wall(5, 3)
         ]
     }
 }

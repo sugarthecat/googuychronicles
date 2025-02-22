@@ -7,20 +7,10 @@ class GameScreen extends GUI {
         this.player = new Player(0, 2);
         this.elements = []
         this.camera = { x: 0, y: 0 }
-        // this.level = new University();
-        // this.rooms = this.level.rooms;
-
-        this.rooms = [new Room(0, 1, 1, []),
-        new Room(0, 2, 2, []),
-        new Room(0, 3, 1, []),
-        new Room(1, 3, 1, []),
-        new Room(-1, 2, 1, []),
-        new Wall(0,2),
-        new Wall(-0.5,2)
-        ]
+        this.level = new University();
     }
     Draw(x, y) {
-        this.player.Update(this.rooms)
+        this.player.Update(this.level.rooms)
         push()
         noStroke()
         fill(255)
@@ -29,9 +19,7 @@ class GameScreen extends GUI {
         let targetCameraX = -this.player.x + 300;
         let targetCameraY = -floor((this.player.y) / 300) * 300 + 200 - 150;
         translate(targetCameraX, targetCameraY)
-        for (let i = 0; i < this.rooms.length; i++) {
-            this.rooms[i].Draw();
-        }
+        this.level.Draw()
         fill(0, 0, 255)
         this.player.Draw()
         pop()

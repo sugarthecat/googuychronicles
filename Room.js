@@ -1,5 +1,5 @@
 class Room {
-    constructor(x, floor, width, relativeSurfaces, AddCeilingAndFloor = true) {
+    constructor(x, floor, width, relativeSurfaces=[], AddCeilingAndFloor = true) {
         this.x = x * 300;
         this.y = -floor * 300;
         this.w = width * 300;
