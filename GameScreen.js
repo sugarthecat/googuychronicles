@@ -26,13 +26,55 @@ class GameScreen extends GUI {
         fill(0, 0, 255)
         this.player.Draw()
         pop()
-        fill(0)
-        rect(0, 0, 100, 50)
-        fill(255, 0, 0)
-        rect(0, 0, 100 * this.player.health / this.player.maxHealth, 50)
+        //health bar
+        this.DrawDamageSpikes();
+        //damage spikes
+
+
         pop()
 
         super.Draw(x, y);
+    }
+    DrawDamageSpikes() {
+        let progress = 1 - this.player.health / this.player.maxHealth
+        let spikeWidth = lerp(0.2,0.5,progress);
+        let screenBottom = SCREEN_DIMENSIONS.y - (SCREEN_DIMENSIONS.y - 400) * 0.5
+        let screenTop = -1 * (SCREEN_DIMENSIONS.y - 400) * 0.5
+        let screenRight = SCREEN_DIMENSIONS.x - (SCREEN_DIMENSIONS.x - 600) * 0.5
+        let screenLeft = -1 * (SCREEN_DIMENSIONS.x - 600) * 0.5
+        fill(180, 0, 0, 120)
+        noStroke()
+        for (let i = 0; i < 4; i++) {
+            beginShape();
+            vertex(screenLeft * (1 - spikeWidth) + screenRight * spikeWidth, screenTop);
+            vertex(screenLeft, screenTop);
+            vertex(screenLeft, screenTop * (1 - spikeWidth) + screenBottom * spikeWidth);
+            vertex(300 * progress + screenLeft * (1 - progress), 200 * progress + screenTop * (1 - progress));
+            endShape(CLOSE);
+
+            beginShape();
+            vertex(screenLeft * (1 - spikeWidth) + screenRight * spikeWidth, screenBottom);
+            vertex(screenLeft, screenBottom);
+            vertex(screenLeft, screenBottom * (1 - spikeWidth) + screenTop * spikeWidth);
+            vertex(300 * progress + screenLeft * (1 - progress), 200 * progress + screenBottom * (1 - progress));
+            endShape(CLOSE);
+
+            beginShape();
+            vertex(screenRight * (1 - spikeWidth) + screenLeft * spikeWidth, screenTop);
+            vertex(screenRight, screenTop);
+            vertex(screenRight, screenTop * (1 - spikeWidth) + screenBottom * spikeWidth);
+            vertex(300 * progress + screenRight * (1 - progress), 200 * progress + screenTop * (1 - progress));
+            endShape(CLOSE);
+
+            beginShape();
+            vertex(screenRight * (1 - spikeWidth) + screenLeft * spikeWidth, screenBottom);
+            vertex(screenRight, screenBottom);
+            vertex(screenRight, screenBottom * (1 - spikeWidth) + screenTop * spikeWidth);
+            vertex(300 * progress + screenRight * (1 - progress), 200 * progress + screenBottom * (1 - progress));
+            endShape(CLOSE);
+            spikeWidth *= 0.98;
+            progress *= 0.98
+        }
     }
     keyPressed(key) {
         if (key == " ") {

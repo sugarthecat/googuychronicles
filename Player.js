@@ -10,7 +10,7 @@ class Player {
         this.canJump = true;
         this.lookingRight = false;
         this.aniFrame = 0;
-        this.health = 1;
+        this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
@@ -94,7 +94,8 @@ class Player {
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.canJump = true;
                         this.hanging = false;
                     }
@@ -102,7 +103,8 @@ class Player {
                     if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
                         this.y = room.y + surface.y + this.size / 2
                         newY = this.y;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                         if (surface.sticky) {
                             this.hanging = { horizontal: true, x1: surface.x1 + room.x, x2: surface.x2 + room.x, y: surface.y }
                         }
@@ -118,10 +120,12 @@ class Player {
 
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                     } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                     }
                 }
 
@@ -176,9 +180,11 @@ class Player {
                     if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
                         newX = room.x + surface.x1 - this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                     } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                     }
                 }
                 if (surface instanceof VerticalSurface) {
@@ -189,12 +195,14 @@ class Player {
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     }
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     }
                 }

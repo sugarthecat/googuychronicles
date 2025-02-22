@@ -8,10 +8,7 @@ class Room {
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
             this.objects.push(new HorizontalSurface(0, this.w, 25))
-            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50)),
-            this.objects.push(new HazardZone(50,50,50,0.5)),
-            this.objects.push(new HazardZone(150,50,50,1)),
-            this.objects.push(new HazardZone(250,50,50,2))
+            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50))
         }
     }
     Draw() {
