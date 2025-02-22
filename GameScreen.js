@@ -11,7 +11,8 @@ class GameScreen extends GUI {
         new Room(0, 2, 2, []),
         new Room(0, 3, 1, []),
         new Room(1, 3, 1, []),
-        new Wall(0,2)
+        new Wall(0,2),
+        new Wall(-0.5,2)
         ]
     }
     Draw(x, y) {
