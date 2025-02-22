@@ -39,7 +39,7 @@ class SmallRoom extends Room{
     Draw(){
         push()
         translate(this.x, this.y)
-        rect(-this.size / 2, - this.size / 2, this.size, this.size)
+        image(this.background,this.x,this.y,this.w,this.h)
         let img = this.background;
     }
 }
