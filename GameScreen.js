@@ -7,10 +7,14 @@ class GameScreen extends GUI {
         this.player = new Player(0, 2);
         this.elements = []
         this.camera = { x: 0, y: 0 }
+        // this.level = new University();
+        // this.rooms = this.level.rooms;
+
         this.rooms = [new Room(0, 1, 1, []),
         new Room(0, 2, 2, []),
         new Room(0, 3, 1, []),
         new Room(1, 3, 1, []),
+        new Room(-1, 2, 1, []),
         new Wall(0,2),
         new Wall(-0.5,2)
         ]

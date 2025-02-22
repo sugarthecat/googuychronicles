@@ -5,8 +5,9 @@ class Wall extends Room {
         this.w = 20;
         //add ceiling and floor by default
         this.surfaces = [
-            new VerticalSurface(20, 0, 300),
-            new VerticalSurface(0, 0, 300)
+            new VerticalSurface(25, 0, 150),
+            new VerticalSurface(-25, 0, 150),
+            new HorizontalSurface(-25, 25, 150)
         ]
     }
 }
