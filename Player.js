@@ -18,11 +18,11 @@ class Player {
         }
         let newX = this.x + this.hVelocity * deltaTime / 1000
         //hVelocity decreases by one every milisecond
-        if(abs(this.hVelocity) < deltaTime){
+        if (abs(this.hVelocity) < deltaTime) {
             this.hVelocity = 0;
-        }else if(this.hVelocity > 0){
+        } else if (this.hVelocity > 0) {
             this.hVelocity -= deltaTime;
-        }else if(this.hVelocity < 0){
+        } else if (this.hVelocity < 0) {
             this.hVelocity += deltaTime;
         }
         if (isRight) {
@@ -56,7 +56,7 @@ class Player {
                     }
                 }
                 if (surface instanceof VerticalSurface) {
-                    if (surface.y2 + room.y < this.y - this.size / 2 || surface.y1 + room.y > this.y + this.size / 2) {
+                    if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
                         continue;
                     }
                     //Left-side hang collision
@@ -64,7 +64,8 @@ class Player {
                         newX = room.x + surface.x - this.size / 2
                         this.hVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
-                    } else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
+                    }
+                    else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
                         this.hVelocity = 0
