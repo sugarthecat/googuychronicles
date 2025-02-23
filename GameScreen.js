@@ -4,7 +4,7 @@ class GameScreen extends GUI {
         this.Reset();
     }
     Reset() {
-        this.level = new University();
+        this.level = new Area51();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
 
