@@ -10,7 +10,7 @@ class Player {
         this.canJump = true;
         this.lookingRight = false;
         this.aniFrame = 0;
-        this.health = 3;
+        this.health = 2;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
