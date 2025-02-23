@@ -13,6 +13,7 @@ class University extends Level {
     constructor() {
         super();
         let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallMaintainenceRoom, SmallMaintainenceRoom, SmallCafeteria];
+
         this.spawnpointx = 0;
         this.spawnpointy = 0;
 
@@ -31,7 +32,27 @@ class University extends Level {
             let pos = smallRoomPositions[i]
             this.rooms.push(new possibleSmallRooms[roomTemplateIndex](pos.x,pos.floor));
             possibleSmallRooms.splice(roomTemplateIndex, 1)
+            if(i==0){
+                this.rooms.push(new Wall(pos.x, pos.floor));
+            }
+            if (i>0){
+                if(smallRoomPositions[i-1].floor == pos.floor){
+                    this.rooms.push(new Door(pos.x, pos.floor));
+                } else {
+                    this.rooms.push(new Wall(pos.x, pos.floor));
+                }
+                if(smallRoomPositions[i+1] != null){
+                    if(smallRoomPositions[i+1].floor != pos.floor){
+                        this.rooms.push(new Wall(pos.x+1, pos.floor));
+                    }
+                }
+            }
+            if(i == smallRoomPositions.length-1){
+                this.rooms.push(new Wall(pos.x+1, pos.floor));
+            }
         }
+
+        // this.rooms.push(new Floor(0, 1));
     }
 }
 

@@ -26,6 +26,14 @@ class Room {
     }
 }
 
+class Floor extends Room {
+    constructor(x, floor) {
+        super(x, floor, 1);
+        this.h = this.h - 300;
+        this.h = 100;
+    }
+}
+
 class SmallRoom extends Room {
     constructor(x, floor, background) {
         super(x, floor, 1);
