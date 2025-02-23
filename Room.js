@@ -34,12 +34,13 @@ class SmallRoom extends Room {
     constructor(x, floor, background) {
         super(x, floor, 1);
         this.w = 300;
-        this.background = background
+        this.background = background;
     }
     Draw() {
         push()
         translate(this.x, this.y)
         image(this.background, this.x, this.y, this.w, this.h)
+        pop()
     }
 }
 
