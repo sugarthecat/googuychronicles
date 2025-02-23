@@ -10,7 +10,9 @@ class GameScreen extends GUI {
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
-        this.player.Update(this.level.rooms)
+        if(!this.level.dialogue.isdialogueing){
+            this.player.Update(this.level.rooms);
+        }
         push()
         noStroke()
         fill(255)
