@@ -16,6 +16,7 @@
         this.rooms.narrowvent = loadImage("assets/narrowvent.png")
         this.rooms.widevent = loadImage("assets/widevent.png")
         this.rooms.staircase = loadImage("assets/staircase.png")
+        this.rooms.ventpath = loadImage("assets/ventpath.png")
         this.entities.midAirGooGuy = loadImage("assets/googuymidair.png")
         this.rooms.classroom = loadImage("assets/classroom.png")
         this.rooms.door = loadImage("assets/door.png")

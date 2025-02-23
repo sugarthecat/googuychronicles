@@ -1,8 +1,8 @@
 const TIME_TO_EAT_HUMAN = 2;
 class Player {
     constructor(roomX, roomY) {
-        this.x = 150 + roomX * 300;
-        this.y = -150 - roomY * 300;
+        this.x = 150 + roomX * 350;
+        this.y = -150 - roomY * 350;
         this.size = 30;
         this.speed = 100;
         this.vertVelocity = 0;
@@ -19,6 +19,8 @@ class Player {
         this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
+
+        this.beakerCount = 0;
     }
     Update(rooms, enemies) {
         if (this.eatingEnemyTime >= 0) {
@@ -45,6 +47,12 @@ class Player {
                         this.healingRate = 0;
                     }
                 }
+                if (object instanceof Beaker) {
+                    if (dist(this.x, this.y, object.x + rooms[i].x, object.y + rooms[i].y) < 30 / 2 + this.size / 2) {
+                        this.beakerCount++;
+                        object.active = false;
+                    }
+                }
             }
         }
         for (let i = 0; i < enemies.length; i++) {
@@ -57,7 +65,6 @@ class Player {
                 //no y-overlap
                 continue;
             }
-            console.log(enemies[i].y, this.y, this.size / 2 + enemies[i].h / 2)
             if (enemies[i].stunTime > 0) {
                 continue;
             }
@@ -110,6 +117,7 @@ class Player {
         }
         if (this.eatingEnemyTime <= 0) {
             this.UpdateXPosition(rooms);
+            this.canJump = false;
             this.UpdateYPosition(rooms, enemies);
         }
     }
@@ -226,7 +234,7 @@ class Player {
         for (let i = 0; i < rooms.length; i++) {
             let room = rooms[i];
             //if they have no y-overlap, we don't need to check this room
-            if (room.y > this.y + this.size / 2 || this.y - this.size / 2 > room.y + room.h) {
+            if (room.y >= this.y + this.size / 2 || this.y - this.size / 2 >= room.y + room.h) {
                 continue;
             }
 
@@ -234,7 +242,7 @@ class Player {
                 let surface = room.objects[j];
                 //only deals with surfaces / collision
                 if (surface instanceof HorizontalSurface) {
-                    //if no y-overlap for the surface, skip
+                    //if no y-overlap for the surface+, skip
                     if (abs(room.y + surface.y - this.y) >= this.size / 2) {
                         continue;
                     }
@@ -256,7 +264,6 @@ class Player {
                     //Left-side hang collision
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
-                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
@@ -264,7 +271,6 @@ class Player {
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
-                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
@@ -289,7 +295,7 @@ class Player {
 
         } else if (this.canJump && this.eatingEnemyTime < 0) {
             this.canJump = false;
-            this.vertVelocity = -600;
+            this.vertVelocity = -400;
         }
     }
     Draw() {

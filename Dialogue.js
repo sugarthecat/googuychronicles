@@ -5,6 +5,7 @@ class Dialogue {
         this.charsToShow = 0;
     }
     isActive() {
+        return false
         return this.lineOn < this.lines.length;
     }
     Advance() {

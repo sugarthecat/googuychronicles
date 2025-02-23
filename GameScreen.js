@@ -11,7 +11,7 @@ class GameScreen extends GUI {
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
-        if(!this.level.dialogue.isActive()){
+        if (!this.level.dialogue.isActive() && deltaTime < 1000) {
             this.player.Update(this.level.rooms, this.guards);
             for (let i = 0; i < this.guards.length; i++) {
                 if (!this.guards[i].alive) {
@@ -24,8 +24,6 @@ class GameScreen extends GUI {
         }
         push()
         noStroke()
-        fill(255)
-        rect(0, 0, 600, 400)
 
         let targetCameraX = -this.player.x + 300;
         let targetCameraY = -floor((this.player.y) / 350) * 350 + 200 - 150;
@@ -44,9 +42,15 @@ class GameScreen extends GUI {
             this.guards[i].Draw()
         }
         pop()
+        //draw beakers
+        for(let i =0; i<this.player.beakerCount; i++){
+            image(Assets.symbols.beaker,i*50+10,10,30,30)
+        }
         //health bar
         this.DrawDamageSpikes();
-        this.level.dialogue.Draw()
+        if (this.level.dialogue.isActive()) {
+            this.level.dialogue.Draw()
+        }
         //damage spikes
         super.Draw(x, y);
     }
@@ -93,7 +97,7 @@ class GameScreen extends GUI {
     }
     keyPressed(key) {
         if (key == " ") {
-            if(this.level.dialogue.isActive()){
+            if (this.level.dialogue.isActive()) {
                 this.level.dialogue.Advance();
             } else {
                 this.player.Jump();

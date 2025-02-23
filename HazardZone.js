@@ -1,31 +1,45 @@
-class HazardZone{
-    constructor(x,y,radius,maxDps){
+class HazardZone {
+    constructor(x, y, radius, maxDps) {
         this.x = x;
         this.y = y;
         this.r = radius;
         this.dps = maxDps
     }
-    DPSAtPosition(x,y){
-        let rad = dist (x,y,this.x,this.y) ;
-        if(rad > this.r){
+    DPSAtPosition(x, y) {
+        let rad = dist(x, y, this.x, this.y);
+        if (rad > this.r) {
             return 0;
         }
-        return (this.r-rad)/this.r * this.dps;
+        return (this.r - rad) / this.r * this.dps;
     }
-    Draw(){
-        fill (255,0,0)
-        circle (this.x,this.y,this.r*2)
+    Draw() {
+        fill(255, 0, 0)
+        circle(this.x, this.y, this.r * 2)
     }
 }
 
-class Beaker{
-    constructor(x,y){
+class Beaker {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.w = 20;
-        this.h = 20;
+        this.w = 30;
+        this.h = 30;
+        if (random() > .5) {
+            this.xScale = -1;
+        } else {
+            this.xScale = 1;
+        }
+        this.wavePos = 0;
+        this.active = true;
     }
-    Draw(){
-        image (Assets.symbols.beaker)
+    Draw() {
+        push()
+        translate(this.x, this.y + 5 * sin(this.wavePos * PI))
+        this.wavePos += deltaTime / 1000
+        if (this.wavePos > 2) {
+            this.wavePos %= 1
+        }
+        image(Assets.symbols.beaker, -this.w / 2, -this.h / 2, this.w, this.h)
+        pop()
     }
 }

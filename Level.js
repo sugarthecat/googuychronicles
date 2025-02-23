@@ -12,10 +12,10 @@ class Level {
 class University extends Level {
     constructor() {
         super();
-        let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallOffice];
+        let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallCafeteria, SmallOffice, SmallClassroom];
 
-        this.spawnpointx = 0;
-        this.spawnpointy = 0;
+        this.spawnpointx = 2;
+        this.spawnpointy = 1;
 
         let smallRoomPositions = [
             { x: 1, floor: 1 },
@@ -35,19 +35,19 @@ class University extends Level {
 
         let hallwayPositions = [
             { x: 0, floor: 1 },
-            { x: 2, floor: 1 },
-            { x: 2, floor: 3 },
+            { x: 2, floor: 1 }
         ]
         for (let i = 0; i < hallwayPositions.length; i++){
             let pos = hallwayPositions[i];
             this.rooms.push(new SmallHallway(pos.x, pos.floor));
         }
 
+        this.rooms.push(new VentRoom(4, 2));
+        this.rooms.push(new VentRoom(2, 3));
         let wallsPositions = [
             { x: 0, floor: 1 },
-            { x: 6, floor: 1 },
+            { x: 5, floor: 1 },
             { x: 2, floor: 2 },
-            { x: 3, floor: 2 },
             { x: 5, floor: 2 },
             { x: 0, floor: 3 },
             { x: 7, floor: 3 },
@@ -79,14 +79,10 @@ class University extends Level {
             { x: 2, floor: 0 },
             { x: 3, floor: 0 },
             { x: 4, floor: 0 },
-            { x: 5, floor: 0 },
             { x: 0, floor: 1 },
             { x: 1, floor: 1 },
             { x: 2, floor: 1 },
             { x: 3, floor: 1 },
-            { x: 4, floor: 1 },
-            { x: 5, floor: 1 },
-            { x: 2, floor: 2 },
             { x: 3, floor: 2 },
             { x: 4, floor: 2 },
             { x: 1, floor: 3 },

@@ -1,9 +1,9 @@
 class Room {
-    constructor(x, floor, width, relativeSurfaces = [], AddCeilingAndFloor = true) {
+    constructor(x, floor, width = 1, height = 1, relativeSurfaces = [], AddCeilingAndFloor = true) {
         this.x = x * 350;
         this.y = -floor * 350;
-        this.w = width * 300;
-        this.h = 300;
+        this.w = width * 350 - 50;
+        this.h = height * 350 - 50;
         this.objects = relativeSurfaces;
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
@@ -26,47 +26,45 @@ class Room {
     }
 }
 
-class Floor extends Room {
-    constructor(x, floor) {
-        super(x, floor, 1);
-        this.x = this.x -50;
-        this.y = this.y - 50;
-        this.h = 50;
-        this.w = this.w +100;
-        this.objects = [];
-    }
-    Draw() {
-        push()
-        translate(this.x, this.y)
-        image(Assets.rooms.floor, 0,0, this.w, this.h)
-        pop()
-    }
-}
-
-class SmallRoom extends Room {
-    constructor(x, floor, background) {
-        super(x, floor, 1);
-        this.w = 300;
+class GameRoom extends Room {
+    constructor(x, width, floor, height, background) {
+        super(x, floor, width, height);
         this.background = background;
     }
     Draw() {
         push()
         translate(this.x, this.y)
-        image(this.background, 0,0, this.w, this.h)
+        image(this.background, 0, 0, this.w, this.h)
+        stroke (255,0,0)
+        strokeWeight(5)
+        for (let i = 0; i < this.objects.length; i++) {
+            if (this.objects[i] instanceof Beaker) {
+                this.objects[i].Draw();
+                if (!this.objects[i].active) {
+                    this.objects.splice(i, 1)
+                }
+            } else {
+                this.objects[i].Draw();
+            }
+        }
         pop()
     }
 }
 
-class MediumRoom extends Room {
+class Floor extends Room {
     constructor(x, floor) {
-        super(x, floor);
-        this.width = 600;
+        super(x, floor, 1);
+        this.x = this.x - 50;
+        this.y = this.y - 50;
+        this.h = 50;
+        this.w = this.w + 100;
+        this.objects = [];
+    }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        image(Assets.rooms.floor, 0, 0, this.w, this.h)
+        pop()
     }
 }
 
-class LargeRoom extends Room {
-    constructor(x, floor) {
-        super(x, floor);
-        this.width = 900;
-    }
-}
