@@ -53,9 +53,22 @@ class Player {
                         object.active = false;
                     }
                 }
+                // if (object instanceof Bullet) {
+                //     let dmg = 1;
+                //     // Check if the bullet is within the player's hitbox
+                //     console.log(" DISTANCE "+dist(this.x, this.y, object.x, object.y))
+                //     if (dmg != 0 && dist(this.x, this.y, object.x, object.y) < (this.size / 2 + 5)) {  // Adjust the '5' for bullet's size
+                //         this.health -= dmg;
+                //         this.healingRate = 0;
+                //         console.log("Player hit by bullet! Health: " + this.health);
+                //     }
+                // }
+                
             }
         }
         for (let i = 0; i < enemies.length; i++) {
+
+            //Player-Enemy Collision
 
             if (abs(this.x - enemies[i].x) > this.size / 2 + enemies[i].w / 2) {
                 //no x-overlap
@@ -81,6 +94,20 @@ class Player {
             if (this.x < enemies[i].x) {
                 this.hVelocity *= -1;
             }
+
+            //Bullet Collsiion
+            console.log("Hi");
+
+                if (abs(this.x - enemies[i].bullet.x) > this.size / 2 + enemies[i].bullet.w / 2) {
+                    //no x-overlap
+                    continue;
+                }
+                if (abs(this.y - enemies[i].bullet.y) > this.size / 2 + enemies[i].bullet.h / 2) {
+                    //no y-overlap
+                    continue;
+                }
+                console.log("HIT");
+            
 
 
         }

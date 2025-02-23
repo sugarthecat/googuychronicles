@@ -43,3 +43,25 @@ class Beaker {
         pop()
     }
 }
+
+class Bullet {
+    constructor(x, y, speed) {
+        this.x = x;
+        this.y = y;
+        this.w =  20
+        this.h = 30;
+        this.speed = speed;
+    }
+
+    updateXPos() {
+        this.x += this.speed;
+    }
+    Draw() {
+        push() 
+        fill(255, 255, 255)
+        rect(this.x, this.y+5, 20, 30)
+
+
+        pop()
+    }
+}

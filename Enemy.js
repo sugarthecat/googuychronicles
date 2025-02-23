@@ -55,9 +55,9 @@ class Enemy {
                 this.atDistance = true;
                 this.walkingProgress = 0
             }   
-            else if (player.x > this.x) {  //determines if the enemy moves right or left
+            else if (player.x > this.x) {  //determines if the enemy moves right or left, by facing right or left
                 this.x += movement
-                this.facingRight = true;
+                this.facingRight = true;   
                 this.walkingProgress += deltaTime / 400;
             } else {
                 this.x -= movement
