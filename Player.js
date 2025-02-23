@@ -1,3 +1,4 @@
+const TIME_TO_EAT_HUMAN = 2;
 class Player {
     constructor(roomX, roomY) {
         this.x = 150 + roomX * 300;
@@ -9,14 +10,20 @@ class Player {
         this.hanging = false;
         this.canJump = true;
         this.lookingRight = false;
+        this.eatingEnemyTime = 0;
+        this.eatingEnemyHeight = 0;
+        this.eatingEnemyWidth = 0;
         this.aniFrame = 0;
         this.health = 1;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
-    Update(rooms) {
+    Update(rooms, enemies) {
+        if (this.eatingEnemyTime >= 0) {
+            this.eatingEnemyTime -= deltaTime / 1000
+        }
         this.UpdateHealth(rooms)
-        this.UpdatePosition(rooms);
+        this.UpdatePosition(rooms, enemies);
     }
 
     UpdateHealth(rooms) {
@@ -40,7 +47,7 @@ class Player {
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
-    UpdatePosition(rooms) {
+    UpdatePosition(rooms, enemies) {
         //handle velocity changes:
         if (abs(this.hVelocity) < deltaTime) {
             this.hVelocity = 0;
@@ -69,11 +76,13 @@ class Player {
                 }
             }
         }
-        this.UpdateXPosition(rooms);
-        this.UpdateYPosition(rooms);
+        if (this.eatingEnemyTime <= 0) {
+            this.UpdateXPosition(rooms);
+        }
+        this.UpdateYPosition(rooms, enemies);
     }
 
-    UpdateYPosition(rooms) {
+    UpdateYPosition(rooms, enemies) {
         //y-based collision
         let newY = this.y + this.vertVelocity * deltaTime / 1000;
         for (let i = 0; i < rooms.length; i++) {
@@ -131,6 +140,23 @@ class Player {
 
             }
         }
+        for (let i = 0; i < enemies.length; i++) {
+            if (abs(this.x - enemies[i].x) > this.size + enemies[i].w) {
+                //no x-overlap
+                continue;
+            }
+            //we now know there's x-overlap
+            let enemy = enemies[i]
+            if (this.y + this.size / 2 < enemy.y - this.size / 2 && newY + this.size / 2 > enemy.y - this.size / 2) {
+                this.eatingEnemyTime = 2;
+                this.eatingEnemyHeight = enemy.h;
+                this.eatingEnemyWidth = enemy.w;
+                this.x = enemy.x;
+                this.y = enemy.y + enemy.h / 2;
+                enemy.alive = false;
+            }
+        }
+
         if (!(this.hanging && this.hanging.horizontal)) {
             this.vertVelocity += deltaTime * 0.5;
             this.y = newY;
@@ -223,7 +249,7 @@ class Player {
             }
             this.hanging = false;
 
-        } else if (this.canJump) {
+        } else if (this.canJump && this.eatingEnemyTime < 0) {
             this.canJump = false;
             this.vertVelocity = -600;
         }
@@ -231,31 +257,47 @@ class Player {
     Draw() {
         push()
         translate(this.x, this.y)
-        rect(-this.size / 2, - this.size / 2, this.size, this.size)
-        let img = Assets.spritesheets.googuy
-
         if (this.hanging && this.hanging.horizontal) {
             scale(1, -1)
-        }
-        if (this.hanging && !this.hanging.horizontal) {
+        } else if (this.hanging && !this.hanging.horizontal) {
             if (this.hanging.x > this.x) {
                 scale(1, -1)
                 rotate(-PI / 2)
             } else {
                 rotate(PI / 2)
             }
-        } else if (!this.lookingRight) {
+        }  if (!this.lookingRight) {
             scale(-1, 1)
         }
-        if (this.canJump || this.hanging) {
-            image(img,
-                - 22,
-                - 20,
+
+        let img = Assets.spritesheets.googuy
+
+        if (this.eatingEnemyTime >= 0) {
+            image(img, - 22,
+                (TIME_TO_EAT_HUMAN - this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight - 20 - this.eatingEnemyHeight,
                 44, 44,
                 0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
+            fill(0)
+            rect(-this.eatingEnemyWidth / 2,
+                -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
+                this.eatingEnemyWidth,
+                (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight)
+        }
+        else if (this.canJump || this.hanging) {
+            image(img,
+                - 22, - 20,
+                44, 44,
+                0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
+        } else {
+            if(this.vertVelocity > 0){
+                scale(1,-1)
+            }
+            image(Assets.entities.midAirGooGuy,
+                - 22, - 20,
+                44, 44)
         }
         pop()
-        this.aniFrame += deltaTime / 1000
+        this.aniFrame += deltaTime / 1000;
         this.aniFrame = this.aniFrame % 2;
     }
 }

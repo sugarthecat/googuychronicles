@@ -7,11 +7,19 @@ class GameScreen extends GUI {
         this.level = new University();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
-        this.guards = [new Enemy(0, 2, 1), new Enemy(2, 3, 2)]
+        this.guards = [new Enemy(0, 2, 1), new Enemy(0, 2, 2)]
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
-        this.player.Update(this.level.rooms)
+        this.player.Update(this.level.rooms, this.guards)
+        for (let i = 0; i < this.guards.length; i++) {
+            if (!this.guards[i].alive) {
+                this.guards.splice(i, 1)
+                i--;
+                continue;
+            }
+            this.guards[i].Update(this.player)
+        }
         push()
         noStroke()
         fill(255)
@@ -31,7 +39,6 @@ class GameScreen extends GUI {
         //Draw the enemy
         // this.guard.updatePosition();
         for (let i = 0; i < this.guards.length; i++) {
-            this.guards[i].Update(this.player)
             this.guards[i].Draw()
         }
         pop()

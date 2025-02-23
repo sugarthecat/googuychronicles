@@ -13,6 +13,7 @@ class Enemy {
         this.atDistance = false;
         this.spottedPlayer = true;
         this.facingRight = true;
+        this.alive = true;
     }
 
     Update(player) {
