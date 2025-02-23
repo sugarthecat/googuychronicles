@@ -29,8 +29,17 @@ class Room {
 class Floor extends Room {
     constructor(x, floor) {
         super(x, floor, 1);
-        this.h = this.h - 300;
-        this.h = 100;
+        this.x = this.x -50;
+        this.y = this.y - 50;
+        this.h = 50;
+        this.w = this.w +100;
+        this.objects = [];
+    }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        image(Assets.rooms.floor, 0,0, this.w, this.h)
+        pop()
     }
 }
 

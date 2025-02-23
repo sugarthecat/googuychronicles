@@ -11,4 +11,10 @@ class Door extends Room {
             new HorizontalSurface(0, 50, 250)
         ]
     }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        image(Assets.rooms.door, 0,0, this.w, this.h)
+        pop()
+    }
 }

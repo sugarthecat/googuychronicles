@@ -3,13 +3,18 @@ class SmallOffice extends SmallRoom {
         super(x, floor, Assets.rooms.office)
     }
 }
-class SmallMaintainenceRoom extends SmallRoom {
+class SmallClassroom extends SmallRoom {
     constructor(x, floor) {
-        super(x, floor, Assets.rooms.hallway)
+        super(x, floor, Assets.rooms.classroom)
     }
 }
 class SmallCafeteria extends SmallRoom {
     constructor(x, floor) {
         super(x, floor, Assets.rooms.cafeteria)
+    }
+}
+class SmallHallway extends SmallRoom {
+    constructor(x, floor) {
+        super(x, floor, Assets.rooms.hallway)
     }
 }
