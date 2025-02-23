@@ -18,6 +18,5 @@ class VerticalSurface {
     }
     Draw(){
         line(this.x,this.y1,this.x,this.y2)
-        console.log(2)
     }
 }

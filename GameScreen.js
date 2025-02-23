@@ -8,11 +8,11 @@ class GameScreen extends GUI {
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
 
-        this.guards = [new MeleeGradStudent(1, 2, 1), 
-                       new MeleeGradStudent(0, 2, 1), 
-                       new MeleeScientist(2, 3, 2), 
-                       new MeleeScientist(3, 4, 2),
-                       new RangedPolice(3, 4, 2)]
+        this.guards = [new MeleeGradStudent(1, 2, 1),
+        new MeleeGradStudent(0, 2, 1),
+        new MeleeScientist(2, 3, 2),
+        new MeleeScientist(3, 4, 2),
+        new RangedPolice(3, 4, 2)]
 
         this.guards = this.level.guards;
 
@@ -51,13 +51,22 @@ class GameScreen extends GUI {
         }
         pop()
         //draw beakers
-        for(let i =0; i<this.player.beakerCount; i++){
-            image(Assets.symbols.beaker,i*50+10,10,30,30)
+        for (let i = 0; i < this.player.beakerCount; i++) {
+            image(Assets.symbols.beaker, i * 50 + 10, 10, 30, 30)
         }
         //health bar
         this.DrawDamageSpikes();
         if (this.level.dialogue.isActive()) {
             this.level.dialogue.Draw()
+        } else if (this.player.toInteract) {
+            fill(0)
+            rect(200, 330, 200, 30)
+            fill(255)
+            textFont('Courier New');
+            textSize(30)
+            textAlign(CENTER)
+            textSize(14)
+            text(this.player.getInteractDialogue(), 300, 350); 
         }
         //damage spikes
         super.Draw(x, y);
@@ -110,6 +119,8 @@ class GameScreen extends GUI {
             } else {
                 this.player.Jump();
             }
+        }else if(key == "e"){
+            this.player.Interact();
         }
     }
 }

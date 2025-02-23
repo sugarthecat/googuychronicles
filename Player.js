@@ -8,6 +8,7 @@ class Player {
         this.vertVelocity = 0;
         this.hVelocity = 0;
         this.hanging = false;
+        this.toInteract = false;
         this.canJump = true;
         this.lookingRight = false;
         this.eatingEnemyTime = -1;
@@ -20,7 +21,7 @@ class Player {
         this.maxHealth = 3;
         this.healingRate = 0;
 
-        this.beakerCount = 0;
+        this.beakerCount = 3;
     }
     Update(rooms, enemies) {
         if (this.eatingEnemyTime >= 0) {
@@ -31,13 +32,22 @@ class Player {
     }
 
     UpdateHealth(rooms, enemies) {
+        this.toInteract = false;
         //heal
         this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
         this.healingRate = min(this.healingRate, 0.25)
         this.health += this.healingRate * deltaTime / 2000
         //take damage
-        for (let i = 0; i < rooms.length; i++) {  //Loops through each object in each room and set damage
+        for (let i = 0; i < rooms.length; i++) {
+            //Loops through each object in each room and set damage
+            //if they have no x-overlap, we don't need to check this room
+            if (rooms[i].x >= this.x + this.size / 2 || this.x - this.size / 2 >= rooms[i].x + rooms[i].w) {
+                continue;
+            }
+            if (rooms[i].y >= this.y + this.size / 2 || this.y - this.size / 2 >= rooms[i].y + rooms[i].h) {
+                continue;
+            }
             for (let j = 0; j < rooms[i].objects.length; j++) {
                 let object = rooms[i].objects[j]
                 if (object instanceof HazardZone) {
@@ -52,6 +62,15 @@ class Player {
                         this.beakerCount++;
                         object.active = false;
                     }
+                }
+                if (object instanceof WeakWallSection) {
+                    if (abs(this.x - object.x - rooms[i].x) > this.size / 2 + object.w / 2) {
+                        continue
+                    }
+                    if (abs(this.y - object.y - rooms[i].y) > this.size / 2 + object.h / 2) {
+                        continue
+                    }
+                    this.toInteract = object;
                 }
             }
         }
@@ -296,6 +315,31 @@ class Player {
         } else if (this.canJump && this.eatingEnemyTime < 0) {
             this.canJump = false;
             this.vertVelocity = -400;
+        }
+    }
+    canInteract(){
+        return this.toInteract != false;
+    }
+    getInteractDialogue(){
+        if(!this.canInteract()){
+            return "";
+        }
+        if(this.toInteract instanceof WeakWallSection){
+            if(this.toInteract.broken){
+                return "Press E to escape"
+            }else if(this.toInteract.beakers_needed <= this.beakerCount){
+                return `Press E to break`
+            }else{
+                return `${this.toInteract.beakers_needed - this.beakerCount} more globules needed`
+            }
+        }
+    }
+    Interact(){
+        if(!this.canInteract()){
+            return;
+        }
+        if(this.toInteract instanceof WeakWallSection){
+            this.toInteract.AttemptBreak(this.beakerCount)
         }
     }
     Draw() {
