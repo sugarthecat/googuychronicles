@@ -48,7 +48,7 @@ class GameRoom extends Room {
                 this.objects[i].Draw();
             }
             else {
-                this.objects[i].Draw();
+                //this.objects[i].Draw();
             }
         }
         pop()
