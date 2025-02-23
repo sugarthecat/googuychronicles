@@ -17,3 +17,15 @@ class HazardZone{
         circle (this.x,this.y,this.r*2)
     }
 }
+
+class Beaker{
+    constructor(x,y){
+        this.x = x;
+        this.y = y;
+        this.w = 20;
+        this.h = 20;
+    }
+    Draw(){
+        image (Assets.symbols.beaker)
+    }
+}

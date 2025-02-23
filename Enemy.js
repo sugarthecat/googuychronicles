@@ -10,6 +10,7 @@ class Enemy {
         this.h = 100;
         this.minDist = minDist;
         this.maxDist = maxDist;
+        this.lostPlayerTimer = 0;
         this.stunTime = 0;
         this.speed = speed;
         this.atDistance = false;
@@ -23,9 +24,16 @@ class Enemy {
     Update(player) {
         let distToPlayer = abs(this.x - player.x)
         let yDist = abs(this.y - player.y)
-        if ((yDist > 200 || distToPlayer > 500) && this.spottedPlayer) {
-            this.stunTime = 2;
-            this.spottedPlayer = false
+        if (this.spottedPlayer) {
+            if (yDist > 100 || distToPlayer > 400) {
+                this.lostPlayerTimer += deltaTime / 1000;
+            } else {
+                this.lostPlayerTimer = 0;
+            }
+            if (this.lostPlayerTimer > 5) {
+                this.stunTime = 2;
+                this.spottedPlayer = false
+            }
         }
         if (!this.spottedPlayer && yDist < 100 && distToPlayer < 250 && ((this.x > player.x && !this.facingRight) || (this.x < player.x && this.facingRight))) {
             this.spottedPlayer = true
@@ -83,6 +91,9 @@ class Enemy {
         translate(this.x, this.y)
         if (!this.facingRight) {
             scale(-1, 1)
+        }
+        if (this.spottedPlayer) {
+            image(Assets.symbols.alert, -this.w / 2, -this.h, this.w, this.h / 2)
         }
         image(this.spritesheet, - this.w * 3 / 4, 5 - this.h / 2, this.w * 2, this.h,
             this.spritesheet.width / 2 * (floor(this.walkingProgress + 1) % 2), 0,

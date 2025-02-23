@@ -2,6 +2,7 @@
     static spritesheets = {}
     static rooms = {}
     static entities = {}
+    static symbols = {}
     static loadAssets(){
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
@@ -20,6 +21,8 @@
         this.rooms.door = loadImage("assets/door.png")
         this.rooms.wall = loadImage("assets/wall.png")
         this.rooms.floor = loadImage("assets/floor.png")
+        this.symbols.alert = loadImage("assets/exclamationpoint.png")
+        this.symbols.beaker = loadImage("assets/beaker.png")
     }
     static setVolume(volume){
     }

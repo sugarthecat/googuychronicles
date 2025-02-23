@@ -12,7 +12,7 @@ class Level {
 class University extends Level {
     constructor() {
         super();
-        let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallClassroom, SmallClassroom, SmallCafeteria];
+        let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallOffice];
 
         this.spawnpointx = 0;
         this.spawnpointy = 0;
