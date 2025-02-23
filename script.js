@@ -15,6 +15,7 @@ function setup() {
         "title": new TitleScreen(), 
         "game": new GameScreen(), 
         "levelselect": new LevelSelectScreen(),
+        "death": new DeathScreen(),
     }
 }
 function windowResized() {

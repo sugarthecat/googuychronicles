@@ -26,6 +26,9 @@ class GameScreen extends GUI {
                 this.guards[i].Update(this.player)
             }
         }
+        if(this.player.dead){
+            screenOn = "death"
+        }
         push()
         noStroke()
 

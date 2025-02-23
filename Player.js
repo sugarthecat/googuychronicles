@@ -20,7 +20,7 @@ class Player {
         this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
-
+        this.dead = false;
         this.beakerCount = 3;
     }
     Update(rooms, enemies) {
@@ -120,6 +120,9 @@ class Player {
 
 
 
+        }
+        if(this.health < 0){
+            this.dead = true;
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
