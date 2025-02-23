@@ -17,45 +17,34 @@ class University extends Level {
         this.spawnpointy = 0;
         this.rooms = [
             
-            // //third floor
-            
-            
-            // new Room(2, 3, 1), //hallway
-            // new Room(3, 3, 1), //small
-            // new Room(4, 3, 1), //small
-            // new Room(5, 3, 1), //medium
-            
+            //third floor
+            new SmallRoom(1, 3, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]),
+            new SmallRoom(2, 3, Assets.rooms.hallway), 
+            new SmallRoom(3, 3, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), 
+            new SmallRoom(4, 3, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), 
+            new Room(5, 3, 2), //medium
 
-            // //second floor
-            // new Room(2, 2, 1), //vent
-            // new Room(3, 2, 1), //small
-            // new Room(4, 2, 1), //staircase
-
-            new SmallRoom(0, 2, Assets.rooms.hallway), //small 
-            new SmallRoom(1, 2, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
-            new SmallRoom(2, 2, Assets.rooms.hallway), //hallway
-            new SmallRoom(3, 2, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
+            //second floor
+            new SmallRoom(2, 2, Assets.rooms.widevent),
+            new SmallRoom(3, 2, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), 
+            new SmallRoom(4, 2, Assets.rooms.staircase),
+            
 
             //first floor
-            new SmallRoom(0, 1, Assets.rooms.hallway), //small 
-            new SmallRoom(1, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
-            new SmallRoom(2, 1, Assets.rooms.hallway), //hallway
-            new SmallRoom(3, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
+            new SmallRoom(0, 1, Assets.rooms.hallway),
+            new SmallRoom(1, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), 
+            new SmallRoom(2, 1, Assets.rooms.hallway),
+            new SmallRoom(3, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), 
             new Room(4, 1, 2), //medium
-
-            new SmallRoom(0, 0, Assets.rooms.hallway), //small 
-            new SmallRoom(1, 0, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
-            new SmallRoom(2, 0, Assets.rooms.hallway), //hallway
-            new SmallRoom(3, 0, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
 
             //third floor doors
             new Door(2, 3),
             new Door(3, 3),
             new Door(4, 3),
             new Door(5, 3),
-            new Door(6, 3),
 
             //second floor doors
+            new Door(3, 2),
             new Door(4, 2),
 
             //first floor doors
@@ -63,7 +52,6 @@ class University extends Level {
             new Door(2, 1),
             new Door(3, 1),
             new Door(4, 1),
-            new Door(5, 1),
 
             //third floor walls
             new Wall(1, 3),
