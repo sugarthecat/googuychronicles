@@ -27,6 +27,10 @@ class GameScreen extends GUI {
         }
         if(this.player.dead){
             screenOn = "death"
+            screens.death.Reset()
+        }else if(this.player.won){
+            screenOn = "win"
+            screens.win.Reset()
         }
         push()
         noStroke()
