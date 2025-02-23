@@ -36,7 +36,7 @@ class DeathScreen extends EndScreen {
         super("You Died.");
     }
 }
-class WinScreen extends GUI {
+class WinScreen extends EndScreen {
     constructor() {
         super("Escaped!");
     }
