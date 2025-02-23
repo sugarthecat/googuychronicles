@@ -14,6 +14,7 @@ class GameScreen extends GUI {
         new MeleeScientist(3, 4, 2),
         new RangedPolice(3, 4, 2)]
 
+        this.gooStains = [];
         this.guards = this.level.guards;
 
         this.camera = { x: 0, y: 0 }
@@ -23,6 +24,7 @@ class GameScreen extends GUI {
             this.player.Update(this.level.rooms, this.guards);
             for (let i = 0; i < this.guards.length; i++) {
                 if (!this.guards[i].alive) {
+                    this.gooStains.push(new GooStain(this.guards[i].x, this.guards[i].y + this.guards[i].h / 2))
                     this.guards.splice(i, 1)
                     i--;
                     continue;
@@ -43,6 +45,9 @@ class GameScreen extends GUI {
         //After the translation. This is relative to the player. 
         this.level.Draw()
         fill(0, 0, 255)
+        for (let i = 0; i < this.gooStains.length; i++) {
+            this.gooStains[i].Draw()
+        }
         this.player.Draw()
         //Draw the enemy
         // this.guard.updatePosition();
@@ -66,7 +71,7 @@ class GameScreen extends GUI {
             textSize(30)
             textAlign(CENTER)
             textSize(14)
-            text(this.player.getInteractDialogue(), 300, 350); 
+            text(this.player.getInteractDialogue(), 300, 350);
         }
         //damage spikes
         super.Draw(x, y);
@@ -119,7 +124,7 @@ class GameScreen extends GUI {
             } else {
                 this.player.Jump();
             }
-        }else if(key == "e"){
+        } else if (key == "e") {
             this.player.Interact();
         }
     }

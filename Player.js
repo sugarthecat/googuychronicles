@@ -75,7 +75,6 @@ class Player {
             }
         }
         for (let i = 0; i < enemies.length; i++) {
-
             if (abs(this.x - enemies[i].x) > this.size / 2 + enemies[i].w / 2) {
                 //no x-overlap
                 continue;
@@ -100,8 +99,6 @@ class Player {
             if (this.x < enemies[i].x) {
                 this.hVelocity *= -1;
             }
-
-
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
@@ -199,7 +196,7 @@ class Player {
             }
         }
         for (let i = 0; i < enemies.length; i++) {
-            if (abs(this.x - enemies[i].x) > this.size + enemies[i].w) {
+            if (abs(this.x - enemies[i].x) > (this.size + enemies[i].w) / 3) {
                 //no x-overlap
                 continue;
             }
@@ -317,28 +314,28 @@ class Player {
             this.vertVelocity = -400;
         }
     }
-    canInteract(){
+    canInteract() {
         return this.toInteract != false;
     }
-    getInteractDialogue(){
-        if(!this.canInteract()){
+    getInteractDialogue() {
+        if (!this.canInteract()) {
             return "";
         }
-        if(this.toInteract instanceof WeakWallSection){
-            if(this.toInteract.broken){
+        if (this.toInteract instanceof WeakWallSection) {
+            if (this.toInteract.broken) {
                 return "Press E to escape"
-            }else if(this.toInteract.beakers_needed <= this.beakerCount){
+            } else if (this.toInteract.beakers_needed <= this.beakerCount) {
                 return `Press E to break`
-            }else{
+            } else {
                 return `${this.toInteract.beakers_needed - this.beakerCount} more globules needed`
             }
         }
     }
-    Interact(){
-        if(!this.canInteract()){
+    Interact() {
+        if (!this.canInteract()) {
             return;
         }
-        if(this.toInteract instanceof WeakWallSection){
+        if (this.toInteract instanceof WeakWallSection) {
             this.toInteract.AttemptBreak(this.beakerCount)
         }
     }

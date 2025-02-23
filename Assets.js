@@ -25,6 +25,7 @@
         this.entities.midAirGooGuy = loadImage("assets/googuymidair.png")
         this.entities.wallcracks = loadImage("assets/crack.png")
         this.entities.wallhole = loadImage("assets/hole.png")
+        this.entities.goostain = loadImage("assets/goostain.png")
         this.rooms.door = loadImage("assets/door.png")
         this.rooms.wall = loadImage("assets/wall.png")
         this.rooms.floor = loadImage("assets/floor.png")
