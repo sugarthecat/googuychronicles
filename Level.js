@@ -12,9 +12,11 @@ class Level {
 class University extends Level {
     constructor() {
         super();
+        this.rooms.push(new EscapeRoom(0,1));
+        
         let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallClassroom, SmallClassroom, SmallClassroom];
 
-        this.spawnpointx = 0;
+        this.spawnpointx = -1;
         this.spawnpointy = 0;
         this.guards = [new MeleeGradStudent(1, 2, 1), 
                        new MeleeGradStudent(5, 6, 1), 
@@ -48,9 +50,9 @@ class University extends Level {
             this.rooms.push(new possibleMediumRooms[roomTemplateIndex](pos.x,pos.floor));
             possibleMediumRooms.splice(roomTemplateIndex, 1)
         }
-
+        
         let hallwayPositions = [
-            { x: 0, floor: 1 },
+            { x: -1, floor: 1 },
             { x: 6, floor: 1 },
         ]
         for (let i = 0; i < hallwayPositions.length; i++){
@@ -133,6 +135,10 @@ class University extends Level {
 class Skyscraper extends Level {
     constructor() {
         super();
+        
+        this.rooms.push(new MediumHelipad(1, 8));
+        this.rooms.push(new EscapeRoom(4,8));
+
         let possibleSmallRooms = [SmallCafeteria, SmallCafeteria, SmallOffice, SmallOffice, SmallOffice, SmallOffice];
 
         this.spawnpointx = 2;
@@ -144,7 +150,6 @@ class Skyscraper extends Level {
             { x: 3, floor: 4 },
             { x: 1, floor: 6 },
             { x: 4, floor: 7 },
-            { x: 2, floor: 8 },
         ]
         this.rooms = []
         for (let i = 0; i < smallRoomPositions.length; i++) {
@@ -535,6 +540,9 @@ class UndergroundBunker extends Level {
 class Area51 extends Level {
     constructor() {
         super();
+        this.rooms.push(new MediumHelipad(5, 5));
+        this.rooms.push(new EscapeRoom(3,5));
+        
         this.spawnpointx = 5;
         this.spawnpointy = 4;
 
