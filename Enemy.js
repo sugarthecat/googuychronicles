@@ -73,6 +73,9 @@ class Enemy {
             }
         }
     }
+    ResetCooldown() {
+        this.stunTime = 1
+    }
     Draw() {
         push()
         noStroke()
@@ -81,8 +84,8 @@ class Enemy {
         if (!this.facingRight) {
             scale(-1, 1)
         }
-        image(this.spritesheet, - this.w * 3 / 4, - this.h / 2, this.w * 2, this.h,
-            this.spritesheet.width / 2 * (floor(this.walkingProgress+1)%2), 0, 
+        image(this.spritesheet, - this.w * 3 / 4, 5 - this.h / 2, this.w * 2, this.h,
+            this.spritesheet.width / 2 * (floor(this.walkingProgress + 1) % 2), 0,
             this.spritesheet.width / 2, this.spritesheet.height)
         pop()
     }

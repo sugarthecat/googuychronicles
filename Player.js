@@ -16,7 +16,7 @@ class Player {
         this.eatingEnemyFacingRight = false;
         this.eatingEnemySpritesheet;
         this.aniFrame = 0;
-        this.health = 1;
+        this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
@@ -24,11 +24,11 @@ class Player {
         if (this.eatingEnemyTime >= 0) {
             this.eatingEnemyTime -= deltaTime / 1000
         }
-        this.UpdateHealth(rooms)
         this.UpdatePosition(rooms, enemies);
+        this.UpdateHealth(rooms, enemies);
     }
 
-    UpdateHealth(rooms) {
+    UpdateHealth(rooms, enemies) {
         //heal
         this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
@@ -46,6 +46,36 @@ class Player {
                     }
                 }
             }
+        }
+        for (let i = 0; i < enemies.length; i++) {
+
+            if (abs(this.x - enemies[i].x) > this.size / 2 + enemies[i].w / 2) {
+                //no x-overlap
+                continue;
+            }
+            if (abs(this.y - enemies[i].y) > this.size / 2 + enemies[i].h / 2) {
+                //no y-overlap
+                continue;
+            }
+            console.log(enemies[i].y, this.y, this.size / 2 + enemies[i].h / 2)
+            if (enemies[i].stunTime > 0) {
+                continue;
+            }
+            if (this.x < enemies[i].x && !enemies[i].facingRight) {
+                enemies[i].ResetCooldown();
+                this.health -= 1;
+            }
+            if (this.x > enemies[i].x && enemies[i].facingRight) {
+                enemies[i].ResetCooldown();
+                this.health -= 1;
+            }
+            this.vertVelocity = -100;
+            this.hVelocity = 300;
+            if (this.x < enemies[i].x) {
+                this.hVelocity *= -1;
+            }
+
+
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
@@ -189,7 +219,7 @@ class Player {
         } else if (newX < this.x) {
             this.lookingRight = false;
         }
-        if(this.hanging && !this.hanging.horizontal){
+        if (this.hanging && !this.hanging.horizontal) {
             newX = this.x;
         }
         //x-based collision
@@ -275,15 +305,15 @@ class Player {
             fill(0)
             let sheet = this.eatingEnemySpritesheet
 
-            if(!this.eatingEnemyFacingRight){
-                scale (-1,1)
+            if (!this.eatingEnemyFacingRight) {
+                scale(-1, 1)
             }
-            image(sheet, -this.eatingEnemyWidth * 3/4,
+            image(sheet, -this.eatingEnemyWidth * 3 / 4,
                 -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
                 this.eatingEnemyWidth * 2,
                 (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight,
-                sheet.width / 2,sheet.height - sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN, 
-                sheet.width / 2, sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN)
+                sheet.width / 2, sheet.height - sheet.height * this.eatingEnemyTime / TIME_TO_EAT_HUMAN,
+                sheet.width / 2, sheet.height * this.eatingEnemyTime / TIME_TO_EAT_HUMAN)
         } else {
             if (this.hanging && this.hanging.horizontal) {
                 scale(1, -1)
