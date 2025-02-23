@@ -3,6 +3,8 @@
     static rooms = {}
     static entities = {}
     static symbols = {}
+    static music = {}
+    static sound = {}
     static screens = {}
     static loadAssets(){
         this.spritesheets.googuy = loadImage("assets/googuy.png")
@@ -36,8 +38,6 @@
         this.rooms.floor = loadImage("assets/floor.png")
         this.symbols.alert = loadImage("assets/exclamationpoint.png")
         this.symbols.beaker = loadImage("assets/beaker.png")
-        this.screens.titlescreen = loadImage("assets/titlescreen.png")
-        this.screens.levelselectscreen = loadImage("assets/levelselect.png")
     }
     static setVolume(volume){
     }

@@ -31,7 +31,6 @@ class Player {
         this.UpdatePosition(rooms, enemies);
         this.UpdateHealth(rooms, enemies);
     }
-
     UpdateHealth(rooms, enemies) {
         this.toInteract = false;
         //heal
@@ -205,14 +204,21 @@ class Player {
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
+                        if(this.vertVelocity > 50){
+                            Assets.sound.land.play()
+                        }
                         this.vertVelocity = 0
                         this.canJump = true;
                         this.hanging = false;
+                        
                     }
                     //Collide on some Hsurface above the player
                     if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
                         this.y = room.y + surface.y + this.size / 2 + 0.5
                         newY = this.y;
+                        if (this.vertVelocity < 10) {
+                            Assets.sound.land.play()
+                        }
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         if (surface.sticky) {
@@ -309,6 +315,9 @@ class Player {
                     //Left-side hang collision
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
+                        if (this.hVelocity != 0) {
+                            Assets.sound.land.play()
+                        }
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         if (!this.canJump) {
@@ -318,6 +327,9 @@ class Player {
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
+                        if (this.hVelocity != 0) {
+                            Assets.sound.land.play()
+                        }
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         if (!this.canJump) {
@@ -353,6 +365,7 @@ class Player {
         if (this.hanging) {
             if (!this.hanging.horizontal) {
                 this.vertVelocity = -300
+                Assets.sound.jump.play()
                 //Wall jump
                 if (this.hanging.x < this.x) {
                     this.hVelocity = 200
@@ -365,6 +378,7 @@ class Player {
         } else if (this.canJump && this.eatingEnemyTime < 0) {
             this.canJump = false;
             this.vertVelocity = -400;
+            Assets.sound.jump.play()
         }
     }
     canInteract() {
