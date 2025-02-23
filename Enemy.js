@@ -1,49 +1,30 @@
 class Enemy {
 
-    constructor(x, y) {  //same as player pos
+    constructor(x, floor, speed = 20) {  //same as player pos
         this.x = x;
-        this.y = y;
+        this.y = floor;
+        this.speed = speed;
+        this.spottedPlayer = true;
     }
 
-
-     updatePosition(dx) {
-        this.x+=dx;
-    }
-
-
-    getMovement(player) {
-        
-        let dx = this.x - player.x
-
-
-        if(dx > -200 && dx < 0) {
-            this.updatePosition(0.5)
+    Update(player) {
+        let distToPlayer = abs(this.x - player.x)
+        let yDist = abs(this.y - player.y)
+        if (yDist > 150 || distToPlayer > 500) {
+            this.spottedPlayer = false
         }
-        else if(dx > 0 && dx < 200) {
-            this.updatePosition(-0.5)
+        if (yDist < 150 && distToPlayer < 250) {
+            this.spottedPlayer = true
         }
-        else {
-            this.patrol()
-        }        
+        if (this.spottedPlayer) {
 
+        }
     }
-
-    patrol() {
-        
-
-
-
-    }
-    draw() {
-        
-        push() 
+    Draw() {
+        push()
         noStroke()
         fill(0)
         rect(this.x, this.y, 40, 100)
         pop()
     }
-
-
-
-
 }

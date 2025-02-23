@@ -17,8 +17,6 @@ class GameScreen extends GUI {
         fill(255)
         rect(0, 0, 600, 400)
 
-        console.log(x, y);
-
         let targetCameraX = -this.player.x + 300;
         let targetCameraY = -floor((this.player.y) / 300) * 300 + 200 - 150;
         //interpolate camera position;
@@ -27,19 +25,13 @@ class GameScreen extends GUI {
         translate(this.camera.x, this.camera.y)
 
         //After the translation. This is relative to the player. 
-
-
-
-
         this.level.Draw()
         fill(0, 0, 255)
         this.player.Draw()
-
         //Draw the enemy
-
        // this.guard.updatePosition();
-       this.guard.getMovement(this.player);
-       this.guard.draw();
+       this.guard.Update(this.player);
+       this.guard.Draw();
         
 
 
