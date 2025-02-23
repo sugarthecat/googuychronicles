@@ -39,7 +39,7 @@ class SmallRoom extends Room {
     Draw() {
         push()
         translate(this.x, this.y)
-        image(this.background, this.x, this.y, this.w, this.h)
+        image(this.background, 0,0, this.w, this.h)
         pop()
     }
 }
