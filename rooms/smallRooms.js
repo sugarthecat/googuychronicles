@@ -58,6 +58,11 @@ class MediumAbandonedLibrary extends MediumRoom {
         super(x, floor, Assets.rooms.abandonedlibrary)
     }
 }
+class MediumGreenhouse extends MediumRoom {
+    constructor(x, floor) {
+        super(x, floor, Assets.rooms.greenhouse)
+    }
+}
 class LargeShootingRange extends LargeRoom {
     constructor(x, floor) {
         super(x, floor, Assets.rooms.shootingrange)

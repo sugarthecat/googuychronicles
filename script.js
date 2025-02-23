@@ -11,7 +11,11 @@ function preload() {
 }
 function setup() {
     createCanvas(windowWidth, windowHeight);
-    screens = { "title": new TitleScreen(), "game": new GameScreen() }
+    screens = { 
+        "title": new TitleScreen(), 
+        "game": new GameScreen(), 
+        "levelselect": new LevelSelectScreen(),
+    }
 }
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);

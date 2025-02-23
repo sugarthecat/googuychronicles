@@ -33,7 +33,7 @@ class University extends Level {
             possibleSmallRooms.splice(roomTemplateIndex, 1)
         }
 
-        let possibleMediumRooms = [MediumAbandonedLibrary, MediumMeetingRoom];
+        let possibleMediumRooms = [MediumAbandonedLibrary, MediumGreenhouse];
         let mediumRoomPositions = [
             { x: 3, floor: 1 },
             { x: 6, floor: 2 },
@@ -551,7 +551,6 @@ class Area51 extends Level {
 
             { x: 0, floor: 1 },
             { x: 1, floor: 1 },
-            { x: 2, floor: 1 },
             { x: 3, floor: 1 },
             { x: 4, floor: 1 },
             { x: 5, floor: 1 },
@@ -563,7 +562,6 @@ class Area51 extends Level {
 
             { x: 1, floor: 2 },
             { x: 2, floor: 2 },
-            { x: 3, floor: 2 },
             { x: 4, floor: 2 },
             { x: 5, floor: 2 },
             { x: 6, floor: 2 },
