@@ -14,6 +14,7 @@ class University extends Level {
         super();
         let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallCafeteria, SmallOffice, SmallClassroom];
 
+        this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
         this.spawnpointx = 2;
         this.spawnpointy = 1;
 

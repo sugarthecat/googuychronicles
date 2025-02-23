@@ -7,6 +7,7 @@ class GameScreen extends GUI {
         this.level = new University();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
+
         this.guards = [new MeleeGradStudent(1, 2, 1), 
                        //new MeleeGradStudent(0, 2, 1), 
                        //new MeleeScientist(2, 3, 2), 
