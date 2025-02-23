@@ -16,7 +16,7 @@ class University extends Level {
         this.rooms = []
         this.rooms.push(new EscapeRoom(0,1));
         
-        this.song = Assets.music.entergoo
+        this.song = Assets.music.entergoo;
         let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallClassroom, SmallClassroom, SmallClassroom];
 
         this.spawnpointx = -1;
