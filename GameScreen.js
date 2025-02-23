@@ -28,11 +28,9 @@ class GameScreen extends GUI {
         pop()
         //health bar
         this.DrawDamageSpikes();
+        this.level.dialogue.Draw()
         //damage spikes
-
-
         pop()
-
         super.Draw(x, y);
     }
     DrawDamageSpikes() {
@@ -78,7 +76,11 @@ class GameScreen extends GUI {
     }
     keyPressed(key) {
         if (key == " ") {
-            this.player.Jump();
+            if(this.level.dialogue.isdialogueing){
+                this.level.dialogue.d ++;
+            } else {
+                this.player.Jump();
+            }
         }
     }
 }

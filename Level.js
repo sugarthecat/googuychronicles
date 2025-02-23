@@ -100,6 +100,7 @@ class University extends Level {
             let pos = floorsPositions[i];
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
+        this.dialogue = new UniversityDialogue();
     }
 }
 
