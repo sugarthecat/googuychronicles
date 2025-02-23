@@ -1,11 +1,12 @@
 class Button {
-    constructor(x, y, w, h, text, action) {
+    constructor(x, y, w, h, text, action, color) {
         this.x = x;
         this.y = y;
         this.w = w;
         this.h = h;
         this.text = text;
         this.action = action;
+        this.color = '#BAD6B0'||color;
     }
     HandleClick(x, y) {
         if (x >= this.x && y > this.y && y <= this.y + this.h && x <= this.x + this.w) {
@@ -17,7 +18,7 @@ class Button {
         noStroke()
         textSize(this.h - 10)
         textSize(min(textSize(),textSize()*this.w/textWidth(this.text)))
-        fill(255)
+        fill(this.color)
         if (x >= this.x && y > this.y && y <= this.y + this.h && x <= this.x + this.w) {
             fill(200)
         }

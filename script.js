@@ -21,6 +21,7 @@ function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
 function draw() {
+    noSmooth()
     if (windowWidth / TARGET_SCREEN_DIMENSIONS.x < windowHeight / TARGET_SCREEN_DIMENSIONS.y) {
         scaleFactor = windowWidth / TARGET_SCREEN_DIMENSIONS.x
         SCREEN_DIMENSIONS.x = TARGET_SCREEN_DIMENSIONS.x
