@@ -1,4 +1,4 @@
- class Assets{
+class Assets {
     static spritesheets = {}
     static rooms = {}
     static entities = {}
@@ -6,13 +6,13 @@
     static music = {}
     static sound = {}
     static screens = {}
-    static loadAssets(){
+    static loadAssets() {
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
         this.spritesheets.police = loadImage("assets/police.png")
         this.spritesheets.gradstudent = loadImage("assets/gradstudent.png")
-        this.spritesheets.madscientist= loadImage("assets/madscientist.png")
-        this.spritesheets.gun= loadImage("assets/gun.png")
+        this.spritesheets.madscientist = loadImage("assets/madscientist.png")
+        this.spritesheets.gun = loadImage("assets/gun.png")
         this.rooms.office = loadImage("assets/office.png")
         this.rooms.cafeteria = loadImage("assets/cafeteria.png")
         this.rooms.hallway = loadImage("assets/hallway.png")
@@ -38,7 +38,9 @@
         this.rooms.floor = loadImage("assets/floor.png")
         this.symbols.alert = loadImage("assets/exclamationpoint.png")
         this.symbols.beaker = loadImage("assets/beaker.png")
+        this.screens.titlescreen = loadImage("titlescreen.png")
+        this.screens.levelselectscreen = loadImage("levelselect.png")
     }
-    static setVolume(volume){
+    static setVolume(volume) {
     }
 }
