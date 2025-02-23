@@ -34,10 +34,9 @@ class Player {
     UpdateHealth(rooms, enemies) {
         this.toInteract = false;
         //heal
-        this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
         this.healingRate = min(this.healingRate, 0.25)
-        this.health += this.healingRate * deltaTime / 2000
+        this.health += this.healingRate * deltaTime / 1000
         //take damage
         for (let i = 0; i < rooms.length; i++) {
             //Loops through each object in each room and set damage
@@ -52,10 +51,8 @@ class Player {
                 let object = rooms[i].objects[j]
                 if (object instanceof HazardZone) {
                     let dmg = object.DPSAtPosition(this.x - rooms[i].x, this.y - rooms[i].y) * deltaTime / 1000
-                    if (dmg != 0) {
-                        this.health -= dmg;
-                        this.healingRate = 0;
-                    }
+
+                    this.TakeDamage(dmg)
                 }
                 if (object instanceof Beaker) {
                     if (dist(this.x, this.y, object.x + rooms[i].x, object.y + rooms[i].y) < 30 / 2 + this.size / 2) {
@@ -75,30 +72,54 @@ class Player {
             }
         }
         for (let i = 0; i < enemies.length; i++) {
-            if (abs(this.x - enemies[i].x) > this.size / 2 + enemies[i].w / 2) {
-                //no x-overlap
-                continue;
-            }
-            if (abs(this.y - enemies[i].y) > this.size / 2 + enemies[i].h / 2) {
+
+            //Player-Enemy Collision
+
+            if (abs(this.x - enemies[i].x) < this.size / 2 + enemies[i].w / 2 && abs(this.y - enemies[i].y) < (this.size / 2 + enemies[i].h / 2)*0.9) {
                 //no y-overlap
-                continue;
+
+                if (this.x < enemies[i].x && !enemies[i].facingRight) {
+                    enemies[i].ResetCooldown();
+                    this.TakeDamage(1)
+                }
+                if (this.x > enemies[i].x && enemies[i].facingRight) {
+                    enemies[i].ResetCooldown();
+                    this.TakeDamage(1)
+                }
+                this.vertVelocity = -100;
+                this.hVelocity = 300;
+                enemies[i].spotPlayer();
+                if (this.x < enemies[i].x) {
+                    this.hVelocity *= -1;
+                }
             }
-            if (enemies[i].stunTime > 0) {
-                continue;
+            //Bullet Collsiion
+
+            if (enemies[i].bullet) {
+                if (abs(this.x - enemies[i].bullet.x) > this.size / 2 + enemies[i].bullet.w / 2) {
+                    //no x-overlap
+                    continue
+                    //console.log("HIT1");
+                }
+                if (abs(this.y - enemies[i].bullet.y) > this.size / 2 + enemies[i].bullet.h / 2) {
+                    //no y-overlap
+                    continue;
+                }
+                console.log("HIT2");
+                enemies[i].bullet.used = true;
+                this.TakeDamage(1)
+                this.vertVelocity = -150
+                if (this.x > enemies[i].bullet) {
+                    this.hVelocity = 300;
+                } else {
+
+                    this.hVelocity = -300;
+                }
+
             }
-            if (this.x < enemies[i].x && !enemies[i].facingRight) {
-                enemies[i].ResetCooldown();
-                this.health -= 1;
-            }
-            if (this.x > enemies[i].x && enemies[i].facingRight) {
-                enemies[i].ResetCooldown();
-                this.health -= 1;
-            }
-            this.vertVelocity = -100;
-            this.hVelocity = 300;
-            if (this.x < enemies[i].x) {
-                this.hVelocity *= -1;
-            }
+
+
+
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
@@ -151,13 +172,33 @@ class Player {
             }
             for (let j = 0; j < room.objects.length; j++) {
                 let surface = room.objects[j];
+                if (surface instanceof VerticalSurface) {
+
+                    if (surface.x + room.x <= this.x - this.size / 2 || surface.x + room.x >= this.x + this.size / 2) {
+                        continue;
+                    }
+
+                    if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
+                        newY = room.y + surface.y1 - this.size / 2;
+                        this.vertVelocity = 0
+                        this.hVelocity = 0;
+                    } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
+                        newY = room.y + surface.y2 + this.size / 2;
+                        this.vertVelocity = 0;
+                        this.hVelocity = 0;
+                    }
+                }
+
+            }
+            for (let j = 0; j < room.objects.length; j++) {
+                let surface = room.objects[j];
                 if (surface instanceof HorizontalSurface) {
                     //if no x-overlap for the surface, skip
                     if (surface.x2 + room.x <= this.x - this.size / 2 || surface.x1 + room.x >= this.x + this.size / 2) {
                         continue;
                     }
                     //Collide on some Hsurface below the player
-                    if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 >= surface.y + room.y) {
+                    if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
                         this.vertVelocity = 0
@@ -400,5 +441,11 @@ class Player {
         pop()
         this.aniFrame += deltaTime / 1000;
         this.aniFrame = this.aniFrame % 2;
+    }
+    TakeDamage(dmg) {
+        this.health -= dmg;
+        if (dmg > 0) {
+            this.healingRate = 0;
+        }
     }
 }

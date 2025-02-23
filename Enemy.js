@@ -47,6 +47,7 @@ class Enemy {
             this.walkingProgress = 0;
             this.stunTime -= deltaTime / 1000;
         } else if (this.spottedPlayer) {
+            this.facingRight = this.x < player.x
             if (distToPlayer > this.maxDist) {
                 this.atDistance = false
             }
@@ -55,13 +56,11 @@ class Enemy {
                 this.atDistance = true;
                 this.walkingProgress = 0
             }   
-            else if (player.x > this.x) {  //determines if the enemy moves right or left
-                this.x += movement
-                this.facingRight = true;
+            else if (player.x > this.x) {  //determines if the enemy moves right or left, by facing right or left
+                this.x += movement 
                 this.walkingProgress += deltaTime / 400;
             } else {
                 this.x -= movement
-                this.facingRight = false;
                 this.walkingProgress += deltaTime / 400;
             }
         } else { //Patrol Behavior
@@ -102,5 +101,9 @@ class Enemy {
             this.spritesheet.width / 2 * (floor(this.walkingProgress + 1) % 2), 0,
             this.spritesheet.width / 2, this.spritesheet.height)
         pop()
+    }
+    spotPlayer(){
+        this.spottedPlayer = true
+        this.ResetCooldown();
     }
 }
