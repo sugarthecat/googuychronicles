@@ -21,7 +21,7 @@ class Player {
         this.maxHealth = 3;
         this.healingRate = 0;
         this.dead = false;
-        this.beakerCount = 3;
+        this.beakerCount = 0;
     }
     Update(rooms, enemies) {
         if (this.eatingEnemyTime >= 0) {
