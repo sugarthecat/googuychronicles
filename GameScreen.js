@@ -7,7 +7,7 @@ class GameScreen extends GUI {
         this.level = new University();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
-        this.guard = new Enemy(400, -150);
+        this.guards = [new Enemy(0, 2, 1), new Enemy(2, 3, 2)]
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
@@ -29,26 +29,24 @@ class GameScreen extends GUI {
         fill(0, 0, 255)
         this.player.Draw()
         //Draw the enemy
-       // this.guard.updatePosition();
-       this.guard.Update(this.player);
-       this.guard.Draw();
-        
-
-
+        // this.guard.updatePosition();
+        for (let i = 0; i < this.guards.length; i++) {
+            this.guards[i].Update(this.player)
+            this.guards[i].Draw()
+        }
         pop()
         //health bar
         this.DrawDamageSpikes();
         //damage spikes
 
 
-        pop()
 
         //console.log(x, y);
         super.Draw(x, y);
     }
     DrawDamageSpikes() {
         let progress = 1 - this.player.health / this.player.maxHealth
-        let spikeWidth = lerp(0.2,0.5,progress);
+        let spikeWidth = lerp(0.1, 0.4, progress);
         let screenBottom = SCREEN_DIMENSIONS.y - (SCREEN_DIMENSIONS.y - 400) * 0.5
         let screenTop = -1 * (SCREEN_DIMENSIONS.y - 400) * 0.5
         let screenRight = SCREEN_DIMENSIONS.x - (SCREEN_DIMENSIONS.x - 600) * 0.5
