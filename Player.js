@@ -10,19 +10,35 @@ class Player {
         this.canJump = true;
         this.lookingRight = false;
         this.aniFrame = 0;
-        this.health = 1;
+        this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
     Update(rooms) {
+        this.UpdateHealth(rooms)
+        this.UpdatePosition(rooms);
+    }
 
-        //increment health 
+    UpdateHealth(rooms){
+        //heal
         this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
         this.healingRate = min(this.healingRate, 0.25)
         this.health += this.healingRate * deltaTime / 2000
-        this.health = min(this.health, this.maxHealth)
-        this.UpdatePosition(rooms);
+        //take damage
+        for(let i = 0; i<rooms.length; i++){
+            for(let j = 0; j<rooms[i].objects.length; j++){
+                let object = rooms[i].objects[j]
+                if(object instanceof HazardZone){
+                    let dmg = object.DPSAtPosition(this.x-rooms[i].x,this.y-rooms[i].y) * deltaTime / 1000
+                    if(dmg != 0){
+                        this.health -= dmg;
+                        this.healingRate = 0;
+                    }
+                }
+            }
+        }
+        this.health = constrain(this.health,0, this.maxHealth)
     }
     UpdatePosition(rooms) {
         //handle velocity changes:
@@ -78,7 +94,8 @@ class Player {
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.canJump = true;
                         this.hanging = false;
                     }
@@ -86,7 +103,8 @@ class Player {
                     if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
                         this.y = room.y + surface.y + this.size / 2
                         newY = this.y;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                         if (surface.sticky) {
                             this.hanging = { horizontal: true, x1: surface.x1 + room.x, x2: surface.x2 + room.x, y: surface.y }
                         }
@@ -102,10 +120,12 @@ class Player {
 
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                     } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2;
-                        this.vertVelocity = 0;
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
                     }
                 }
 
@@ -160,9 +180,11 @@ class Player {
                     if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
                         newX = room.x + surface.x1 - this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                     } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                     }
                 }
                 if (surface instanceof VerticalSurface) {
@@ -173,12 +195,14 @@ class Player {
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     }
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
                         this.hVelocity = 0
+                        this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     }
                 }
@@ -192,16 +216,16 @@ class Player {
                 this.vertVelocity = -300
                 //Wall jump
                 if (this.hanging.x < this.x) {
-                    this.hVelocity = 300
+                    this.hVelocity = 200
                 } else {
-                    this.hVelocity = -300
+                    this.hVelocity = -200
                 }
             }
             this.hanging = false;
 
         } else if (this.canJump) {
             this.canJump = false;
-            this.vertVelocity = -500;
+            this.vertVelocity = -300;
         }
     }
     Draw() {
