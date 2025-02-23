@@ -12,6 +12,10 @@
         this.rooms.widevent = loadImage("assets/widevent.png")
         this.rooms.staircase = loadImage("assets/staircase.png")
         this.entities.midAirGooGuy = loadImage("assets/googuymidair.png")
+        this.rooms.classroom = loadImage("assets/classroom.png")
+        this.rooms.door = loadImage("assets/door.png")
+        this.rooms.wall = loadImage("assets/wall.png")
+        this.rooms.floor = loadImage("assets/floor.png")
     }
     static setVolume(volume){
     }

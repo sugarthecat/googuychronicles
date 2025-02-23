@@ -9,4 +9,10 @@ class Wall extends Room {
             new VerticalSurface(0, 0, 300),
         ]
     }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        image(Assets.rooms.wall, 0,0, this.w, this.h)
+        pop()
+    }
 }
