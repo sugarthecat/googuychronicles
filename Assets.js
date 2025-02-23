@@ -3,6 +3,8 @@
     static rooms = {}
     static entities = {}
     static symbols = {}
+    static music = {}
+    static sound = {}
     static loadAssets(){
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
@@ -33,6 +35,15 @@
         this.rooms.floor = loadImage("assets/floor.png")
         this.symbols.alert = loadImage("assets/exclamationpoint.png")
         this.symbols.beaker = loadImage("assets/beaker.png")
+
+        this.sound.jump = loadSound("assets/sound/goo_jump.mp3")
+        this.sound.land = loadSound("assets/sound/goo_impact.mp3")
+        
+        this.music.entergoo = loadSound("assets/sound/music/enter_goo.mp3")
+        this.music.robot = loadSound("assets/sound/music/robot_factory.mp3")
+        this.music.fifty1 = loadSound("assets/sound/music/51.mp3")
+
+        this.sound.death = loadSound("assets/sound/death/death_man.mp3")
     }
     static setVolume(volume){
     }
