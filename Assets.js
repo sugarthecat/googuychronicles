@@ -15,6 +15,7 @@
         this.rooms.meetingroom = loadImage("assets/meetingroom.png")
         this.rooms.classroom = loadImage("assets/classroom.png")
         this.rooms.recroom = loadImage("assets/recroom.png")
+        this.rooms.abandonedlibrary = loadImage("assets/library.png")
         this.rooms.shootingrange = loadImage("assets/shootingrange.png")
         this.rooms.narrowvent = loadImage("assets/narrowvent.png")
         this.rooms.widevent = loadImage("assets/widevent.png")

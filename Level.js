@@ -12,21 +12,18 @@ class Level {
 class University extends Level {
     constructor() {
         super();
-        let possibleSmallRooms = [EscapeRoom, EscapeRoom, EscapeRoom, EscapeRoom, EscapeRoom, EscapeRoom];
+        let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallClassroom, SmallClassroom, SmallClassroom];
 
         this.spawnpointx = 0;
         this.spawnpointy = 0;
         this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
-        this.spawnpointx = 2;
-        this.spawnpointy = 1;
 
         let smallRoomPositions = [
             { x: 1, floor: 1 },
-            { x: 3, floor: 1 },
+            { x: 7, floor: 1 },
+            { x: 1, floor: 2 },
             { x: 3, floor: 2 },
-            { x: 1, floor: 3 },
-            { x: 3, floor: 3 },
-            { x: 4, floor: 3 },
+            { x: 4, floor: 2 },
         ]
         this.rooms = []
         for (let i = 0; i < smallRoomPositions.length; i++) {
@@ -36,10 +33,10 @@ class University extends Level {
             possibleSmallRooms.splice(roomTemplateIndex, 1)
         }
 
-        let possibleMediumRooms = [MediumMeetingRoom, MediumMeetingRoom];
+        let possibleMediumRooms = [MediumAbandonedLibrary, MediumMeetingRoom];
         let mediumRoomPositions = [
-            { x: 4, floor: 3 },
-            { x: 5, floor: 1 },
+            { x: 3, floor: 1 },
+            { x: 6, floor: 2 },
         ]
         for (let i = 0; i < mediumRoomPositions.length; i++){
             let roomTemplateIndex = floor(random(0,possibleMediumRooms.length))
@@ -50,8 +47,7 @@ class University extends Level {
 
         let hallwayPositions = [
             { x: 0, floor: 1 },
-            { x: 2, floor: 1 },
-            { x: 2, floor: 2 }
+            { x: 6, floor: 1 },
         ]
         for (let i = 0; i < hallwayPositions.length; i++){
             let pos = hallwayPositions[i];
@@ -59,7 +55,8 @@ class University extends Level {
         }
 
         let ventPositions = [
-            { x: 0, floor: 1 },
+            { x: 2, floor: 2 },
+            { x: 5, floor: 2 },
         ]
         for (let i = 0; i < ventPositions.length; i++){
             let pos = ventPositions[i];
@@ -68,11 +65,10 @@ class University extends Level {
 
         let wallsPositions = [
             { x: 0, floor: 1 },
-            { x: 6, floor: 1 },
-            { x: 2, floor: 2 },
-            { x: 5, floor: 2 },
-            { x: 1, floor: 3 },
-            { x: 7, floor: 3 },
+            { x: 3, floor: 1 },
+            { x: 8, floor: 1 },
+            { x: 1, floor: 2 },
+            { x: 8, floor: 2 },
         ]
         for (let i = 0; i < wallsPositions.length; i++){
             let pos = wallsPositions[i];
@@ -82,12 +78,15 @@ class University extends Level {
         let doorsPositions = [
             { x: 1, floor: 1 },
             { x: 2, floor: 1 },
-            { x: 4, floor: 1 },
+            { x: 5, floor: 1 },
+            { x: 6, floor: 1 },
+            { x: 7, floor: 1 },
+
+            { x: 2, floor: 2 },
+            { x: 3, floor: 2 },
             { x: 4, floor: 2 },
-            { x: 2, floor: 3 },
-            { x: 3, floor: 3 },
-            { x: 4, floor: 3 },
-            { x: 5, floor: 3 },
+            { x: 5, floor: 2 },
+            { x: 6, floor: 2 },
         ]
         for (let i = 0; i < doorsPositions.length; i++){
             let pos = doorsPositions[i];
@@ -101,23 +100,23 @@ class University extends Level {
             { x: 3, floor: 0 },
             { x: 4, floor: 0 },
             { x: 5, floor: 0 },
+            { x: 6, floor: 0 },
+            { x: 7, floor: 0 },
 
             { x: 0, floor: 1 },
             { x: 1, floor: 1 },
+            { x: 3, floor: 1 },
             { x: 4, floor: 1 },
-            { x: 5, floor: 1 },
+            { x: 6, floor: 1 },
+            { x: 7, floor: 1 },
 
             { x: 1, floor: 2 },
+            { x: 2, floor: 2 },
             { x: 3, floor: 2 },
+            { x: 4, floor: 2 },
             { x: 5, floor: 2 },
             { x: 6, floor: 2 },
-
-            { x: 2, floor: 3 },
-            { x: 3, floor: 3 },
-            { x: 4, floor: 3 },
-            { x: 5, floor: 3 },
-            { x: 6, floor: 3 },
-            { x: 7, floor: 3 },
+            { x: 7, floor: 2 },
         ]
         for (let i = 0; i < floorsPositions.length; i++){
             let pos = floorsPositions[i];
