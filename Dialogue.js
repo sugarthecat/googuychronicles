@@ -36,12 +36,24 @@ class Dialogue {
         switch (this.lines[this.lineOn].name) {
             case "Professor":
             case "Galvis":
+            case "Ganuba":
+            case "Ganuba (scientist)":
                 charType = 1;
                 sprite = Assets.spritesheets.madscientist
                 break;
             case "Gibraltar":
                 charType = 1;
                 sprite = Assets.spritesheets.gradstudent
+                break;
+            case "Gunthar":
+            case "Gunthar (police)":
+                charType = 1;
+                sprite = Assets.spritesheets.police
+                break;
+            case "Gourd":
+            case "Gourd (guard)":
+                charType = 1;
+                sprite = Assets.spritesheets.armyguy
                 break;
             case "???":
             case "Goo Guy":
