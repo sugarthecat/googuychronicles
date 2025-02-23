@@ -132,6 +132,8 @@ class Player {
             }
         }
         if (this.eatingEnemyTime <= 0) {
+            //do position updating
+            console.log(this.canJump)
             this.UpdateXPosition(rooms);
             this.canJump = false;
             this.UpdateYPosition(rooms, enemies);
@@ -156,7 +158,7 @@ class Player {
                         continue;
                     }
                     //Collide on some Hsurface below the player
-                    if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
+                    if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 >= surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
                         this.vertVelocity = 0
@@ -256,6 +258,32 @@ class Player {
 
             for (let j = 0; j < room.objects.length; j++) {
                 let surface = room.objects[j];
+                if (surface instanceof VerticalSurface) {
+                    if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
+                        continue;
+                    }
+                    //Left-side hang collision
+                    if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
+                        newX = room.x + surface.x - this.size / 2
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
+                        if (!this.canJump) {
+                            this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
+                        }
+                    }
+                    else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
+                        //Right-side hang collision
+                        newX = room.x + surface.x + this.size / 2
+                        this.hVelocity = 0
+                        this.vertVelocity = 0
+                        if (!this.canJump) {
+                            this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
+                        }
+                    } 
+                }
+            }
+            for (let j = 0; j < room.objects.length; j++) {
+                let surface = room.objects[j];
                 //only deals with surfaces / collision
                 if (surface instanceof HorizontalSurface) {
                     //if no y-overlap for the surface+, skip
@@ -271,25 +299,6 @@ class Player {
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
                         this.vertVelocity = 0
-                    }
-                }
-                if (surface instanceof VerticalSurface) {
-                    if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
-                        continue;
-                    }
-                    //Left-side hang collision
-                    if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
-                        newX = room.x + surface.x - this.size / 2
-                        this.hVelocity = 0
-                        this.vertVelocity = 0
-                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
-                    }
-                    else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
-                        //Right-side hang collision
-                        newX = room.x + surface.x + this.size / 2
-                        this.hVelocity = 0
-                        this.vertVelocity = 0
-                        this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                     }
                 }
             }
