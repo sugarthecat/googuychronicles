@@ -189,6 +189,9 @@ class Player {
         } else if (newX < this.x) {
             this.lookingRight = false;
         }
+        if(this.hanging && !this.hanging.horizontal){
+            newX = this.x;
+        }
         //x-based collision
         for (let i = 0; i < rooms.length; i++) {
             let room = rooms[i];
@@ -223,6 +226,7 @@ class Player {
                     //Left-side hang collision
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
+                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
@@ -230,6 +234,7 @@ class Player {
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
+                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
