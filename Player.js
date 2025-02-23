@@ -13,6 +13,8 @@ class Player {
         this.eatingEnemyTime = 0;
         this.eatingEnemyHeight = 0;
         this.eatingEnemyWidth = 0;
+        this.eatingEnemyFacingRight = false;
+        this.eatingEnemySpritesheet;
         this.aniFrame = 0;
         this.health = 1;
         this.maxHealth = 3;
@@ -103,7 +105,6 @@ class Player {
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
-                        this.hVelocity = 0
                         this.vertVelocity = 0
                         this.canJump = true;
                         this.hanging = false;
@@ -129,12 +130,12 @@ class Player {
 
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2;
-                        this.hVelocity = 0
                         this.vertVelocity = 0
+                        this.hVelocity = 0;
                     } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2;
-                        this.hVelocity = 0
-                        this.vertVelocity = 0
+                        this.vertVelocity = 0;
+                        this.hVelocity = 0;
                     }
                 }
 
@@ -147,12 +148,15 @@ class Player {
             }
             //we now know there's x-overlap
             let enemy = enemies[i]
-            if (this.y + this.size / 2 < enemy.y - this.size / 2 && newY + this.size / 2 > enemy.y - this.size / 2) {
+            if (this.y + this.size / 2 < enemy.y - enemy.h / 2 && newY + this.size / 2 > enemy.y - enemy.h / 2) {
                 this.eatingEnemyTime = 2;
                 this.eatingEnemyHeight = enemy.h;
                 this.eatingEnemyWidth = enemy.w;
+                this.eatingEnemyFacingRight = enemy.facingRight;
+                this.eatingEnemySpritesheet = enemy.spritesheet
                 this.x = enemy.x;
-                this.y = enemy.y + enemy.h / 2;
+                this.y = enemy.y + enemy.h / 2 - this.size / 2;
+                newY = this.y;
                 enemy.alive = false;
             }
         }
@@ -166,7 +170,6 @@ class Player {
         }
     }
     UpdateXPosition(rooms) {
-
         let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
         let isLeft = keyIsDown(LEFT_ARROW) || keyIsDown(65);
         if (this.hanging && !this.hanging.horizontal) {
@@ -257,44 +260,52 @@ class Player {
     Draw() {
         push()
         translate(this.x, this.y)
-        if (this.hanging && this.hanging.horizontal) {
-            scale(1, -1)
-        } else if (this.hanging && !this.hanging.horizontal) {
-            if (this.hanging.x > this.x) {
-                scale(1, -1)
-                rotate(-PI / 2)
-            } else {
-                rotate(PI / 2)
-            }
-        }  if (!this.lookingRight) {
-            scale(-1, 1)
-        }
-
         let img = Assets.spritesheets.googuy
 
         if (this.eatingEnemyTime >= 0) {
             image(img, - 22,
-                (TIME_TO_EAT_HUMAN - this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight - 20 - this.eatingEnemyHeight,
+                (TIME_TO_EAT_HUMAN - this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * (this.eatingEnemyHeight) - 18 - this.eatingEnemyHeight,
                 44, 44,
                 0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
             fill(0)
-            rect(-this.eatingEnemyWidth / 2,
-                -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
-                this.eatingEnemyWidth,
-                (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight)
-        }
-        else if (this.canJump || this.hanging) {
-            image(img,
-                - 22, - 20,
-                44, 44,
-                0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
-        } else {
-            if(this.vertVelocity > 0){
-                scale(1,-1)
+            let sheet = this.eatingEnemySpritesheet
+
+            if(!this.eatingEnemyFacingRight){
+                scale (-1,1)
             }
-            image(Assets.entities.midAirGooGuy,
-                - 22, - 20,
-                44, 44)
+            image(sheet, -this.eatingEnemyWidth * 3/4,
+                -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
+                this.eatingEnemyWidth * 2,
+                (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight,
+                0,sheet.height - sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN, 
+                sheet.width / 2, sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN)
+        } else {
+            if (this.hanging && this.hanging.horizontal) {
+                scale(1, -1)
+            } else if (this.hanging && !this.hanging.horizontal) {
+                if (this.hanging.x > this.x) {
+                    scale(1, -1)
+                    rotate(-PI / 2)
+                } else {
+                    rotate(PI / 2)
+                }
+            } if (!this.lookingRight) {
+                scale(-1, 1)
+            }
+
+            if (this.canJump || this.hanging) {
+                image(img,
+                    - 22, - 20,
+                    44, 44,
+                    0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
+            } else {
+                if (this.vertVelocity > 0) {
+                    scale(1, -1)
+                }
+                image(Assets.entities.midAirGooGuy,
+                    - 22, - 20,
+                    44, 44)
+            }
         }
         pop()
         this.aniFrame += deltaTime / 1000;
