@@ -43,7 +43,7 @@ class RangedPolice extends Enemy {
         if (!this.facingRight) { //if left, reflect it
             scale(-1, 1)
         }
-        rect(-15, 0, 50, 10)
+        image(Assets.spritesheets.gun, -15, 0, 50, 10)
 
         pop()
         if (this.bullet !== null) {
