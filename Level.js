@@ -31,12 +31,22 @@ class University extends Level {
             // new Room(3, 2, 1), //small
             // new Room(4, 2, 1), //staircase
 
+            new SmallRoom(0, 2, Assets.rooms.hallway), //small 
+            new SmallRoom(1, 2, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
+            new SmallRoom(2, 2, Assets.rooms.hallway), //hallway
+            new SmallRoom(3, 2, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
+
             //first floor
             new SmallRoom(0, 1, Assets.rooms.hallway), //small 
             new SmallRoom(1, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
             new SmallRoom(2, 1, Assets.rooms.hallway), //hallway
             new SmallRoom(3, 1, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
             new Room(4, 1, 2), //medium
+
+            new SmallRoom(0, 0, Assets.rooms.hallway), //small 
+            new SmallRoom(1, 0, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
+            new SmallRoom(2, 0, Assets.rooms.hallway), //hallway
+            new SmallRoom(3, 0, this.possibleSmallRooms[Math.floor(Math.random() * this.possibleSmallRooms.length)]), //small
 
             //third floor doors
             new Door(2, 3),
@@ -64,7 +74,7 @@ class University extends Level {
             new Wall(5, 2),
 
             //first floor walls
-            new Wall(0, 1),
+            // new Wall(0, 1),
             new Wall(6, 1)
         ]
     }

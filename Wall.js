@@ -1,7 +1,7 @@
 class Wall extends Room {
     constructor(x, floor) {
         super(x, floor, 1, [])
-        this.x = x * 300 - 25
+        this.x = x * 350 - 50
         this.w = 50;
         //add ceiling and floor by default
         this.objects = [
