@@ -1,6 +1,7 @@
 class Level {
     constructor() {
         this.rooms = [];
+        this.song;
     }
     Draw() {
         for (let i = 0; i < this.rooms.length; i++) {
@@ -15,6 +16,7 @@ class University extends Level {
         this.rooms = []
         this.rooms.push(new EscapeRoom(0,1));
         
+        this.song = Assets.music.entergoo;
         let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallClassroom, SmallClassroom, SmallClassroom];
 
         this.spawnpointx = -1;
@@ -139,6 +141,7 @@ class University extends Level {
 class Skyscraper extends Level {
     constructor() {
         super();
+        this.song = Assets.music.entergoo
         this.rooms = []
 
         this.rooms.push(new MediumHelipad(1, 8));
@@ -324,6 +327,7 @@ class Skyscraper extends Level {
 class MilitaryFort extends Level {
     constructor() {
         super();
+        this.song = Assets.music.robot
         this.rooms = []
         this.spawnpointx = 2;
         this.spawnpointy = 1;
@@ -401,6 +405,7 @@ class MilitaryFort extends Level {
 class RobotFactory extends Level {
     constructor() {
         super();
+        this.song = Assets.music.robot
         this.spawnpointx = 2;
         this.spawnpointy = 1;
 
@@ -478,6 +483,7 @@ class RobotFactory extends Level {
 class UndergroundBunker extends Level {
     constructor() {
         super();
+        this.song = Assets.music.fifty1
         this.spawnpointx = 2;
         this.spawnpointy = 1;
 
@@ -555,6 +561,7 @@ class UndergroundBunker extends Level {
 class Area51 extends Level {
     constructor() {
         super();
+        this.song = Assets.music.fifty1
         this.spawnpointx = 3;
         this.spawnpointy = 0;
         this.rooms = []

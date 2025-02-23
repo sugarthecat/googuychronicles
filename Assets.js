@@ -1,16 +1,18 @@
- class Assets{
+class Assets {
     static spritesheets = {}
     static rooms = {}
     static entities = {}
     static symbols = {}
+    static music = {}
+    static sound = {}
     static screens = {}
-    static loadAssets(){
+    static loadAssets() {
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
         this.spritesheets.police = loadImage("assets/police.png")
         this.spritesheets.gradstudent = loadImage("assets/gradstudent.png")
-        this.spritesheets.madscientist= loadImage("assets/madscientist.png")
-        this.spritesheets.gun= loadImage("assets/gun.png")
+        this.spritesheets.madscientist = loadImage("assets/madscientist.png")
+        this.spritesheets.gun = loadImage("assets/gun.png")
         this.rooms.office = loadImage("assets/office.png")
         this.rooms.cafeteria = loadImage("assets/cafeteria.png")
         this.rooms.hallway = loadImage("assets/hallway.png")
@@ -38,7 +40,17 @@
         this.symbols.beaker = loadImage("assets/beaker.png")
         this.screens.titlescreen = loadImage("assets/titlescreen.png")
         this.screens.levelselectscreen = loadImage("assets/levelselect.png")
+        
+        this.sound.jump = loadSound("assets/sound/goo_jump.mp3")
+        this.sound.land = loadSound("assets/sound/goo_impact.mp3")
+        
+        this.music.entergoo = loadSound("assets/sound/music/enter_goo.mp3")
+        this.music.robot = loadSound("assets/sound/music/robot_factory.mp3")
+        this.music.fifty1 = loadSound("assets/sound/music/51.mp3")
+
+        this.sound.death = loadSound("assets/sound/death/death_man.mp3")
+  
     }
-    static setVolume(volume){
+    static setVolume(volume) {
     }
 }

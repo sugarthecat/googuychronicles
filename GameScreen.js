@@ -2,15 +2,15 @@ class GameScreen extends GUI {
     constructor() {
         super();
     }
+    
     Reset(Level) {
         this.level = Level;
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
-
-
         this.guards = this.level.guards;
         this.gooStains = []
         this.camera = { x: 0, y: 0 }
+        this.level.song.loop()
     }
     Draw(x, y) {
         if (!this.level.dialogue.isActive() && deltaTime < 1000) {
