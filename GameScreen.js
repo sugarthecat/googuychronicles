@@ -7,26 +7,42 @@ class GameScreen extends GUI {
         this.level = new University();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
+        this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
         if(!this.level.dialogue.isdialogueing){
-            this.player.Update(this.level.rooms);
+            this.player.Update(this.level.rooms, this.guards);
+            for (let i = 0; i < this.guards.length; i++) {
+                if (!this.guards[i].alive) {
+                    this.guards.splice(i, 1)
+                    i--;
+                    continue;
+                }
+                this.guards[i].Update(this.player)
+            }
         }
         push()
         noStroke()
         fill(255)
         rect(0, 0, 600, 400)
-        push()
+
         let targetCameraX = -this.player.x + 300;
         let targetCameraY = -floor((this.player.y) / 350) * 350 + 200 - 150;
         //interpolate camera position;
         this.camera.x = lerp(this.camera.x, targetCameraX, min(1, deltaTime / 100))
         this.camera.y = lerp(this.camera.y, targetCameraY, min(1, deltaTime / 100))
         translate(this.camera.x, this.camera.y)
+
+        //After the translation. This is relative to the player. 
         this.level.Draw()
         fill(0, 0, 255)
         this.player.Draw()
+        //Draw the enemy
+        // this.guard.updatePosition();
+        for (let i = 0; i < this.guards.length; i++) {
+            this.guards[i].Draw()
+        }
         pop()
         //health bar
         this.DrawDamageSpikes();
@@ -37,7 +53,7 @@ class GameScreen extends GUI {
     }
     DrawDamageSpikes() {
         let progress = 1 - this.player.health / this.player.maxHealth
-        let spikeWidth = lerp(0.2,0.5,progress);
+        let spikeWidth = lerp(0.1, 0.4, progress);
         let screenBottom = SCREEN_DIMENSIONS.y - (SCREEN_DIMENSIONS.y - 400) * 0.5
         let screenTop = -1 * (SCREEN_DIMENSIONS.y - 400) * 0.5
         let screenRight = SCREEN_DIMENSIONS.x - (SCREEN_DIMENSIONS.x - 600) * 0.5

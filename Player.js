@@ -1,3 +1,4 @@
+const TIME_TO_EAT_HUMAN = 2;
 class Player {
     constructor(roomX, roomY) {
         this.x = 150 + roomX * 300;
@@ -9,17 +10,25 @@ class Player {
         this.hanging = false;
         this.canJump = true;
         this.lookingRight = false;
+        this.eatingEnemyTime = 0;
+        this.eatingEnemyHeight = 0;
+        this.eatingEnemyWidth = 0;
+        this.eatingEnemyFacingRight = false;
+        this.eatingEnemySpritesheet;
         this.aniFrame = 0;
-        this.health = 2;
+        this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
     }
-    Update(rooms) {
-        this.UpdateHealth(rooms)
-        this.UpdatePosition(rooms);
+    Update(rooms, enemies) {
+        if (this.eatingEnemyTime >= 0) {
+            this.eatingEnemyTime -= deltaTime / 1000
+        }
+        this.UpdatePosition(rooms, enemies);
+        this.UpdateHealth(rooms, enemies);
     }
 
-    UpdateHealth(rooms) {
+    UpdateHealth(rooms, enemies) {
         //heal
         this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
@@ -38,9 +47,39 @@ class Player {
                 }
             }
         }
+        for (let i = 0; i < enemies.length; i++) {
+
+            if (abs(this.x - enemies[i].x) > this.size / 2 + enemies[i].w / 2) {
+                //no x-overlap
+                continue;
+            }
+            if (abs(this.y - enemies[i].y) > this.size / 2 + enemies[i].h / 2) {
+                //no y-overlap
+                continue;
+            }
+            console.log(enemies[i].y, this.y, this.size / 2 + enemies[i].h / 2)
+            if (enemies[i].stunTime > 0) {
+                continue;
+            }
+            if (this.x < enemies[i].x && !enemies[i].facingRight) {
+                enemies[i].ResetCooldown();
+                this.health -= 1;
+            }
+            if (this.x > enemies[i].x && enemies[i].facingRight) {
+                enemies[i].ResetCooldown();
+                this.health -= 1;
+            }
+            this.vertVelocity = -100;
+            this.hVelocity = 300;
+            if (this.x < enemies[i].x) {
+                this.hVelocity *= -1;
+            }
+
+
+        }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
-    UpdatePosition(rooms) {
+    UpdatePosition(rooms, enemies) {
         //handle velocity changes:
         if (abs(this.hVelocity) < deltaTime) {
             this.hVelocity = 0;
@@ -69,11 +108,13 @@ class Player {
                 }
             }
         }
-        this.UpdateXPosition(rooms);
-        this.UpdateYPosition(rooms);
+        if (this.eatingEnemyTime <= 0) {
+            this.UpdateXPosition(rooms);
+            this.UpdateYPosition(rooms, enemies);
+        }
     }
 
-    UpdateYPosition(rooms) {
+    UpdateYPosition(rooms, enemies) {
         //y-based collision
         let newY = this.y + this.vertVelocity * deltaTime / 1000;
         for (let i = 0; i < rooms.length; i++) {
@@ -94,7 +135,6 @@ class Player {
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
-                        this.hVelocity = 0
                         this.vertVelocity = 0
                         this.canJump = true;
                         this.hanging = false;
@@ -120,17 +160,37 @@ class Player {
 
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2;
-                        this.hVelocity = 0
                         this.vertVelocity = 0
+                        this.hVelocity = 0;
                     } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2;
-                        this.hVelocity = 0
-                        this.vertVelocity = 0
+                        this.vertVelocity = 0;
+                        this.hVelocity = 0;
                     }
                 }
 
             }
         }
+        for (let i = 0; i < enemies.length; i++) {
+            if (abs(this.x - enemies[i].x) > this.size + enemies[i].w) {
+                //no x-overlap
+                continue;
+            }
+            //we now know there's x-overlap
+            let enemy = enemies[i]
+            if (this.y + this.size / 2 < enemy.y - enemy.h / 2 && newY + this.size / 2 > enemy.y - enemy.h / 2) {
+                this.eatingEnemyTime = 2;
+                this.eatingEnemyHeight = enemy.h;
+                this.eatingEnemyWidth = enemy.w;
+                this.eatingEnemyFacingRight = enemy.facingRight;
+                this.eatingEnemySpritesheet = enemy.spritesheet
+                this.x = enemy.x;
+                this.y = enemy.y + enemy.h / 2 - this.size / 2;
+                newY = this.y;
+                enemy.alive = false;
+            }
+        }
+
         if (!(this.hanging && this.hanging.horizontal)) {
             this.vertVelocity += deltaTime * 0.5;
             this.y = newY;
@@ -140,7 +200,6 @@ class Player {
         }
     }
     UpdateXPosition(rooms) {
-
         let isRight = keyIsDown(RIGHT_ARROW) || keyIsDown(68);
         let isLeft = keyIsDown(LEFT_ARROW) || keyIsDown(65);
         if (this.hanging && !this.hanging.horizontal) {
@@ -159,6 +218,9 @@ class Player {
             this.lookingRight = true;
         } else if (newX < this.x) {
             this.lookingRight = false;
+        }
+        if (this.hanging && !this.hanging.horizontal) {
+            newX = this.x;
         }
         //x-based collision
         for (let i = 0; i < rooms.length; i++) {
@@ -194,6 +256,7 @@ class Player {
                     //Left-side hang collision
                     if (this.x + this.size / 2 <= surface.x + room.x && newX + this.size / 2 > surface.x + room.x) {
                         newX = room.x + surface.x - this.size / 2
+                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
@@ -201,6 +264,7 @@ class Player {
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
                         //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
+                        this.y++;
                         this.hVelocity = 0
                         this.vertVelocity = 0
                         this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
@@ -223,7 +287,7 @@ class Player {
             }
             this.hanging = false;
 
-        } else if (this.canJump) {
+        } else if (this.canJump && this.eatingEnemyTime < 0) {
             this.canJump = false;
             this.vertVelocity = -600;
         }
@@ -231,31 +295,55 @@ class Player {
     Draw() {
         push()
         translate(this.x, this.y)
-        rect(-this.size / 2, - this.size / 2, this.size, this.size)
         let img = Assets.spritesheets.googuy
 
-        if (this.hanging && this.hanging.horizontal) {
-            scale(1, -1)
-        }
-        if (this.hanging && !this.hanging.horizontal) {
-            if (this.hanging.x > this.x) {
-                scale(1, -1)
-                rotate(-PI / 2)
-            } else {
-                rotate(PI / 2)
-            }
-        } else if (!this.lookingRight) {
-            scale(-1, 1)
-        }
-        if (this.canJump || this.hanging) {
-            image(img,
-                - 22,
-                - 20,
+        if (this.eatingEnemyTime >= 0) {
+            image(img, - 22,
+                (TIME_TO_EAT_HUMAN - this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * (this.eatingEnemyHeight) - 18 - this.eatingEnemyHeight,
                 44, 44,
                 0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
+            fill(0)
+            let sheet = this.eatingEnemySpritesheet
+
+            if (!this.eatingEnemyFacingRight) {
+                scale(-1, 1)
+            }
+            image(sheet, -this.eatingEnemyWidth * 3 / 4,
+                -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
+                this.eatingEnemyWidth * 2,
+                (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight,
+                sheet.width / 2, sheet.height - sheet.height * this.eatingEnemyTime / TIME_TO_EAT_HUMAN,
+                sheet.width / 2, sheet.height * this.eatingEnemyTime / TIME_TO_EAT_HUMAN)
+        } else {
+            if (this.hanging && this.hanging.horizontal) {
+                scale(1, -1)
+            } else if (this.hanging && !this.hanging.horizontal) {
+                if (this.hanging.x > this.x) {
+                    scale(1, -1)
+                    rotate(-PI / 2)
+                } else {
+                    rotate(PI / 2)
+                }
+            } if (!this.lookingRight) {
+                scale(-1, 1)
+            }
+
+            if (this.canJump || this.hanging) {
+                image(img,
+                    - 22, - 20,
+                    44, 44,
+                    0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
+            } else {
+                if (this.vertVelocity > 0) {
+                    scale(1, -1)
+                }
+                image(Assets.entities.midAirGooGuy,
+                    - 22, - 20,
+                    44, 44)
+            }
         }
         pop()
-        this.aniFrame += deltaTime / 1000
+        this.aniFrame += deltaTime / 1000;
         this.aniFrame = this.aniFrame % 2;
     }
 }
