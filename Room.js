@@ -1,5 +1,5 @@
 class Room {
-    constructor(x, floor, width, relativeSurfaces=[], AddCeilingAndFloor = true) {
+    constructor(x, floor, width, relativeSurfaces = [], AddCeilingAndFloor = true) {
         this.x = x * 300;
         this.y = -floor * 300;
         this.w = width * 300;
@@ -8,10 +8,7 @@ class Room {
         //add ceiling and floor by default
         if (AddCeilingAndFloor) {
             this.objects.push(new HorizontalSurface(0, this.w, 25))
-            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50)),
-            this.objects.push(new HazardZone(50,50,50,0.5)),
-            this.objects.push(new HazardZone(150,50,50,1)),
-            this.objects.push(new HazardZone(250,50,50,2))
+            this.objects.push(new HorizontalSurface(0, this.w, this.h - 50))
         }
     }
     Draw() {
@@ -26,5 +23,33 @@ class Room {
             object.Draw();
         }
         pop()
+    }
+}
+
+class SmallRoom extends Room {
+    constructor(x, floor, background) {
+        super(x, floor, 1);
+        this.w = 300;
+        this.background = background;
+    }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        image(this.background, 0,0, this.w, this.h)
+        pop()
+    }
+}
+
+class MediumRoom extends Room {
+    constructor(x, floor) {
+        super(x, floor);
+        this.width = 600;
+    }
+}
+
+class LargeRoom extends Room {
+    constructor(x, floor) {
+        super(x, floor);
+        this.width = 900;
     }
 }
