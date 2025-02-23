@@ -75,7 +75,7 @@ class Player {
 
             //Player-Enemy Collision
 
-            if (abs(this.x - enemies[i].x) < this.size / 2 + enemies[i].w / 2 && abs(this.y - enemies[i].y) < this.size / 2 + enemies[i].h / 2) {
+            if (abs(this.x - enemies[i].x) < this.size / 2 + enemies[i].w / 2 && abs(this.y - enemies[i].y) < (this.size / 2 + enemies[i].h / 2)*0.9) {
                 //no y-overlap
 
                 if (this.x < enemies[i].x && !enemies[i].facingRight) {

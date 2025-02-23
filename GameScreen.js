@@ -10,7 +10,7 @@ class GameScreen extends GUI {
 
 
         this.guards = this.level.guards;
-
+        this.gooStains = []
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
