@@ -16,12 +16,12 @@ class University extends Level {
 
         this.spawnpointx = 0;
         this.spawnpointy = 0;
-        this.guards = [new MeleeGradStudent(1, 2, 1), 
-                       new MeleeGradStudent(5, 6, 1), 
-                       new MeleeScientist(1, 1.3, 2), 
-                       new MeleeGradStudent(5, 6, 2),
-                       new MeleeGradStudent(3, 4, 2),
-                       new MeleeScientist(3, 4, 1)]
+        this.guards = [new MeleeGradStudent(1, 2, 1, 50), 
+                       new MeleeGradStudent(5, 6, 1, 50), 
+                       new MeleeScientist(1, 1.3, 2, 90), 
+                       new MeleeGradStudent(5, 6, 2, 50),
+                       new MeleeGradStudent(3, 4, 2, 50),
+                       new MeleeScientist(3, 4, 1, 90)]
         let smallRoomPositions = [
             { x: 1, floor: 1 },
             { x: 7, floor: 1 },
@@ -137,7 +137,16 @@ class Skyscraper extends Level {
 
         this.spawnpointx = 2;
         this.spawnpointy = 7;
-        this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
+        this.guards = [ new RangedPolice(3, 4, 5, 20),
+                        new RangedPolice(2, 3, 1, 50),
+                        new RangedPolice(3, 4, 1, 50),
+                        new MeleeGradStudent(3, 4, 3, 80),
+                        new MeleePolice(3, 4, 2, 80),
+                        new RangedPolice(3, 4, 4, 40),
+                        new MeleeScientist(3, 4, 3, 100),
+                        new MeleeGradStudent(1, 2, 7, 60), 
+                       new MeleeGradStudent(3, 4, 7, 100), 
+                       new MeleePolice(6, 7, 6, 160)]
 
         let smallRoomPositions = [
             { x: 3, floor: 3 },
@@ -535,10 +544,33 @@ class UndergroundBunker extends Level {
 class Area51 extends Level {
     constructor() {
         super();
-        this.spawnpointx = 5;
-        this.spawnpointy = 4;
+        this.spawnpointx = 3;
+        this.spawnpointy = 0;
 
-        this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
+        this.guards = [ 
+            new MeleeGradStudent(5, 5, 5, 50),
+
+            new MeleePolice(5, 6, 4, 160),
+            new MeleeScientist(5, 6, 4, 200),  //furnace
+            new RangedPolice(2, 3, 4, 20),
+
+
+            new MeleeScientist(5, 6, 3, 200),
+
+
+            new RangedPolice(2, 3, 2, 100),
+            new MeleeScientist(1, 2, 2, 150),
+            new MeleeScientist(1, 2, 2, 150),
+            new RangedPolice(1, 2, 2, 100),
+            new RangedPolice(8, 9, 2, 60),
+
+            new RangedPolice(1, 2, 1, 70),
+            new MeleePolice(2, 3, 1, 500), //last floor
+            new RangedPolice(3, 4, 1, 200),
+
+           
+           new MeleeGradStudent(3, 4, 3, 200)]
+           
 
         let possibleSmallRooms = [SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallOffice, SmallCafeteria, SmallOffice]; // change last small office to helipad
         let smallRoomPositions = [
