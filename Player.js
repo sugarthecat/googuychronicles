@@ -19,26 +19,26 @@ class Player {
         this.UpdatePosition(rooms);
     }
 
-    UpdateHealth(rooms){
+    UpdateHealth(rooms) {
         //heal
         this.health += this.healingRate * deltaTime / 2000
         this.healingRate += deltaTime / 50000
         this.healingRate = min(this.healingRate, 0.25)
         this.health += this.healingRate * deltaTime / 2000
         //take damage
-        for(let i = 0; i<rooms.length; i++){
-            for(let j = 0; j<rooms[i].objects.length; j++){
+        for (let i = 0; i < rooms.length; i++) {
+            for (let j = 0; j < rooms[i].objects.length; j++) {
                 let object = rooms[i].objects[j]
-                if(object instanceof HazardZone){
-                    let dmg = object.DPSAtPosition(this.x-rooms[i].x,this.y-rooms[i].y) * deltaTime / 1000
-                    if(dmg != 0){
+                if (object instanceof HazardZone) {
+                    let dmg = object.DPSAtPosition(this.x - rooms[i].x, this.y - rooms[i].y) * deltaTime / 1000
+                    if (dmg != 0) {
                         this.health -= dmg;
                         this.healingRate = 0;
                     }
                 }
             }
         }
-        this.health = constrain(this.health,0, this.maxHealth)
+        this.health = constrain(this.health, 0, this.maxHealth)
     }
     UpdatePosition(rooms) {
         //handle velocity changes:
@@ -249,9 +249,9 @@ class Player {
         }
         if (this.canJump || this.hanging) {
             image(img,
+                - 22,
                 - 20,
-                - 20,
-                40, 40,
+                44, 44,
                 0, img.height / 2 * floor(this.aniFrame), img.width, img.height / 2)
         }
         pop()
