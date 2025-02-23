@@ -1,7 +1,6 @@
 class GameScreen extends GUI {
     constructor() {
         super();
-        this.Reset(new University());
     }
     Reset(Level) {
         this.level = Level;
