@@ -563,7 +563,7 @@ class Area51 extends Level {
         this.rooms.push(new EscapeRoom(3,5));
         
         this.spawnpointx = 6;
-        this.spawnpointy = 4;
+        this.spawnpointy = 2;
 
         this.guards = [ 
             new MeleeGradStudent(5, 5, 5, 50),
@@ -574,6 +574,7 @@ class Area51 extends Level {
 
 
             new MeleeScientist(5, 6, 3, 200),
+            new MeleeScientist(3, 4, 3, 100),
 
 
             new RangedPolice(2, 3, 2, 100),
@@ -581,10 +582,12 @@ class Area51 extends Level {
             new MeleeScientist(1, 2, 2, 150),
             new RangedPolice(1, 2, 2, 100),
             new RangedPolice(8, 9, 2, 60),
+            new MeleeScientist(3, 4, 2, 300),
 
             new RangedPolice(1, 2, 1, 70),
             new MeleePolice(2, 3, 1, 500), //last floor
             new RangedPolice(3, 4, 1, 200),
+            
 
            
            new MeleeGradStudent(3, 4, 3, 200)]
