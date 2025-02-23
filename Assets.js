@@ -6,6 +6,8 @@
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
         this.spritesheets.police = loadImage("assets/police.png")
+        this.spritesheets.gradstudent = loadImage("assets/gradstudent.png")
+        this.spritesheets.madscientist= loadImage("assets/madscientist.png")
         this.rooms.office = loadImage("assets/office.png")
         this.rooms.cafeteria = loadImage("assets/cafeteria.png")
         this.rooms.hallway = loadImage("assets/hallway.png")

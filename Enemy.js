@@ -31,7 +31,9 @@ class Enemy {
             this.spottedPlayer = true
             this.atDistance = false
         }
+        this.walkingProgress %= 2;
         if (this.stunTime > 0) {
+            this.walkingProgress = 0;
             this.stunTime -= deltaTime / 1000;
         } else if (this.spottedPlayer) {
             if (distToPlayer > this.maxDist) {
@@ -40,24 +42,29 @@ class Enemy {
             let movement = this.speed * deltaTime / 1000;
             if (this.atDistance || distToPlayer < this.minDist) {
                 this.atDistance = true;
+                this.walkingProgress = 0
             }
             else if (player.x > this.x) {
                 this.x += movement
                 this.facingRight = true;
+                this.walkingProgress += deltaTime / 400;
             } else {
                 this.x -= movement
                 this.facingRight = false;
+                this.walkingProgress += deltaTime / 400;
             }
         } else {
             let movement = this.speed * deltaTime / 2500;
             if (this.facingRight) {
                 this.x += movement;
+                this.walkingProgress += deltaTime / 1000;
                 if (this.x > this.xEnd) {
                     this.facingRight = false;
                     this.stunTime = 3;
                 }
             } else {
                 this.x -= movement;
+                this.walkingProgress += deltaTime / 1000;
                 if (this.x < this.xStart) {
                     this.facingRight = true;
                     this.stunTime = 3;
@@ -75,7 +82,8 @@ class Enemy {
             scale(-1, 1)
         }
         image(this.spritesheet, - this.w * 3 / 4, - this.h / 2, this.w * 2, this.h,
-            this.spritesheet.width / 2 * floor(this.walkingProgress), 0, this.spritesheet.width / 2, this.spritesheet.height)
+            this.spritesheet.width / 2 * (floor(this.walkingProgress+1)%2), 0, 
+            this.spritesheet.width / 2, this.spritesheet.height)
         pop()
     }
 }

@@ -80,8 +80,8 @@ class Player {
         }
         if (this.eatingEnemyTime <= 0) {
             this.UpdateXPosition(rooms);
+            this.UpdateYPosition(rooms, enemies);
         }
-        this.UpdateYPosition(rooms, enemies);
     }
 
     UpdateYPosition(rooms, enemies) {
@@ -277,7 +277,7 @@ class Player {
                 -this.eatingEnemyTime / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight + 20,
                 this.eatingEnemyWidth * 2,
                 (this.eatingEnemyTime) / TIME_TO_EAT_HUMAN * this.eatingEnemyHeight,
-                0,sheet.height - sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN, 
+                sheet.width / 2,sheet.height - sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN, 
                 sheet.width / 2, sheet.height * this.eatingEnemyTime/TIME_TO_EAT_HUMAN)
         } else {
             if (this.hanging && this.hanging.horizontal) {
