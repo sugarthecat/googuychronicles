@@ -16,6 +16,9 @@ class University extends Level {
 
         this.spawnpointx = 0;
         this.spawnpointy = 0;
+        this.guards = [new MeleeGradStudent(1, 2, 1), new MeleeGradStudent(0, 2, 2)]
+        this.spawnpointx = 2;
+        this.spawnpointy = 1;
 
         let smallRoomPositions = [
             { x: 1, floor: 1 },
