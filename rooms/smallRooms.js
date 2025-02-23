@@ -63,6 +63,11 @@ class MediumGreenhouse extends MediumRoom {
         super(x, floor, Assets.rooms.greenhouse)
     }
 }
+class MediumHelipad extends MediumRoom {
+    constructor(x, floor) {
+        super(x, floor, Assets.rooms.helipad)
+    }
+}
 class MediumDangerousGreenhouse extends MediumRoom {
     constructor(x, floor) {
         super(x, floor, Assets.rooms.greenhouse)

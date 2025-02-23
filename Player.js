@@ -20,7 +20,8 @@ class Player {
         this.health = 3;
         this.maxHealth = 3;
         this.healingRate = 0;
-
+        this.dead = false;
+        this.won = false;
         this.beakerCount = 3;
     }
     Update(rooms, enemies) {
@@ -120,6 +121,9 @@ class Player {
 
 
 
+        }
+        if(this.health < 0){
+            this.dead = true;
         }
         this.health = constrain(this.health, 0, this.maxHealth)
     }
@@ -385,7 +389,11 @@ class Player {
             return;
         }
         if (this.toInteract instanceof WeakWallSection) {
-            this.toInteract.AttemptBreak(this.beakerCount)
+            if(this.toInteract.broken){
+                this.won = true;
+            }else{
+                this.toInteract.AttemptBreak(this.beakerCount)
+            }
         }
     }
     Draw() {

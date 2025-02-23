@@ -3,12 +3,14 @@
     static rooms = {}
     static entities = {}
     static symbols = {}
+    static screens = {}
     static loadAssets(){
         this.spritesheets.googuy = loadImage("assets/googuy.png")
         this.spritesheets.armyguy = loadImage("assets/armyguy.png")
         this.spritesheets.police = loadImage("assets/police.png")
         this.spritesheets.gradstudent = loadImage("assets/gradstudent.png")
         this.spritesheets.madscientist= loadImage("assets/madscientist.png")
+        this.spritesheets.gun= loadImage("assets/gun.png")
         this.rooms.office = loadImage("assets/office.png")
         this.rooms.cafeteria = loadImage("assets/cafeteria.png")
         this.rooms.hallway = loadImage("assets/hallway.png")
@@ -18,6 +20,7 @@
         this.rooms.abandonedlibrary = loadImage("assets/library.png")
         this.rooms.greenhouse = loadImage("assets/Greenhouse.png")
         this.rooms.furnace = loadImage("assets/furnace_room.png")
+        this.rooms.helipad = loadImage("assets/Helipad.png")
         this.rooms.shootingrange = loadImage("assets/shootingrange.png")
         this.rooms.narrowvent = loadImage("assets/narrowvent.png")
         this.rooms.widevent = loadImage("assets/widevent.png")
@@ -33,6 +36,8 @@
         this.rooms.floor = loadImage("assets/floor.png")
         this.symbols.alert = loadImage("assets/exclamationpoint.png")
         this.symbols.beaker = loadImage("assets/beaker.png")
+        this.screens.titlescreen = loadImage("assets/titlescreen.png")
+        this.screens.levelselectscreen = loadImage("assets/levelselect.png")
     }
     static setVolume(volume){
     }

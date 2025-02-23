@@ -1,7 +1,6 @@
 class GameScreen extends GUI {
     constructor() {
         super();
-        this.Reset(new University());
     }
     Reset(Level) {
         this.level = Level;
@@ -25,6 +24,13 @@ class GameScreen extends GUI {
                 }
                 this.guards[i].Update(this.player)
             }
+        }
+        if(this.player.dead){
+            screenOn = "death"
+            screens.death.Reset()
+        }else if(this.player.won){
+            screenOn = "win"
+            screens.win.Reset()
         }
         push()
         noStroke()
