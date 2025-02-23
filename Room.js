@@ -47,7 +47,7 @@ class MediumRoom extends Room {
     }
 }
 
-class Medium extends Room {
+class LargeRoom extends Room {
     constructor(x, floor) {
         super(x, floor);
         this.width = 900;
