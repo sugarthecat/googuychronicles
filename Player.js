@@ -133,7 +133,6 @@ class Player {
         }
         if (this.eatingEnemyTime <= 0) {
             //do position updating
-            console.log(this.canJump)
             this.UpdateXPosition(rooms);
             this.canJump = false;
             this.UpdateYPosition(rooms, enemies);
@@ -167,7 +166,7 @@ class Player {
                     }
                     //Collide on some Hsurface above the player
                     if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
-                        this.y = room.y + surface.y + this.size / 2
+                        this.y = room.y + surface.y + this.size / 2 + 0.5
                         newY = this.y;
                         this.hVelocity = 0
                         this.vertVelocity = 0
