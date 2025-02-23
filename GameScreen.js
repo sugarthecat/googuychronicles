@@ -7,11 +7,15 @@ class GameScreen extends GUI {
         this.level = new University();
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
+
         this.guards = [new MeleeGradStudent(1, 2, 1), 
                        new MeleeGradStudent(0, 2, 1), 
                        new MeleeScientist(2, 3, 2), 
                        new MeleeScientist(3, 4, 2),
                        new RangedPolice(3, 4, 2)]
+
+        this.guards = this.level.guards;
+
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
