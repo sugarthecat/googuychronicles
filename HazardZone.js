@@ -43,3 +43,29 @@ class Beaker {
         pop()
     }
 }
+
+class WeakWallSection {
+    constructor(x, y, w, h, beakers_needed = 3) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+        this.broken = false;
+        this.beakers_needed = beakers_needed;
+    }
+    Draw() {
+        push()
+        translate(this.x, this.y)
+        if (this.broken) {
+            image(Assets.entities.wallhole, -this.w / 2, -this.h / 2, this.w, this.h)
+        } else {
+            image(Assets.entities.wallcracks, -this.w / 2, -this.h / 2, this.w, this.h)
+        } 
+        pop()
+    }
+    AttemptBreak(beakerCount) {
+        if (beakerCount >= this.beakers_needed) {
+            this.broken = true;
+        }
+    }
+}

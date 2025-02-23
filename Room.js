@@ -35,7 +35,7 @@ class GameRoom extends Room {
         push()
         translate(this.x, this.y)
         image(this.background, 0, 0, this.w, this.h)
-        stroke (255,0,0)
+        stroke(255, 0, 0)
         strokeWeight(5)
         for (let i = 0; i < this.objects.length; i++) {
             if (this.objects[i] instanceof Beaker) {
@@ -43,7 +43,11 @@ class GameRoom extends Room {
                 if (!this.objects[i].active) {
                     this.objects.splice(i, 1)
                 }
-            } else {
+            }
+            else if (this.objects[i] instanceof WeakWallSection) {
+                this.objects[i].Draw();
+            }
+            else {
                 this.objects[i].Draw();
             }
         }
