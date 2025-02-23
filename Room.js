@@ -1,7 +1,7 @@
 class Room {
     constructor(x, floor, width, relativeSurfaces = [], AddCeilingAndFloor = true) {
-        this.x = x * 300;
-        this.y = -floor * 300;
+        this.x = x * 350;
+        this.y = -floor * 350;
         this.w = width * 300;
         this.h = 300;
         this.objects = relativeSurfaces;

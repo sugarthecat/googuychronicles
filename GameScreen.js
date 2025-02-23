@@ -18,7 +18,7 @@ class GameScreen extends GUI {
         rect(0, 0, 600, 400)
 
         let targetCameraX = -this.player.x + 300;
-        let targetCameraY = -floor((this.player.y) / 300) * 300 + 200 - 150;
+        let targetCameraY = -floor((this.player.y) / 350) * 350 + 200 - 150;
         //interpolate camera position;
         this.camera.x = lerp(this.camera.x, targetCameraX, min(1, deltaTime / 100))
         this.camera.y = lerp(this.camera.y, targetCameraY, min(1, deltaTime / 100))

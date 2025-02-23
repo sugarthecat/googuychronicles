@@ -225,7 +225,7 @@ class Player {
 
         } else if (this.canJump) {
             this.canJump = false;
-            this.vertVelocity = -300;
+            this.vertVelocity = -600;
         }
     }
     Draw() {
