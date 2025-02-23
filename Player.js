@@ -37,7 +37,7 @@ class Player {
         this.healingRate = min(this.healingRate, 0.25)
         this.health += this.healingRate * deltaTime / 2000
         //take damage
-        for (let i = 0; i < rooms.length; i++) {
+        for (let i = 0; i < rooms.length; i++) {  //Loops through each object in each room and set damage
             for (let j = 0; j < rooms[i].objects.length; j++) {
                 let object = rooms[i].objects[j]
                 if (object instanceof HazardZone) {
