@@ -10,7 +10,7 @@ class Player {
         this.hanging = false;
         this.canJump = true;
         this.lookingRight = false;
-        this.eatingEnemyTime = 0;
+        this.eatingEnemyTime = -1;
         this.eatingEnemyHeight = 0;
         this.eatingEnemyWidth = 0;
         this.eatingEnemyFacingRight = false;

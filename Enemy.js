@@ -14,7 +14,7 @@ class Enemy {
         this.stunTime = 0;
         this.speed = speed;
         this.atDistance = false;
-        this.spottedPlayer = true;
+        this.spottedPlayer = false;
         this.facingRight = true;
         this.alive = true;
 

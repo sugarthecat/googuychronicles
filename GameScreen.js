@@ -11,7 +11,7 @@ class GameScreen extends GUI {
         this.camera = { x: 0, y: 0 }
     }
     Draw(x, y) {
-        if(!this.level.dialogue.isdialogueing){
+        if(!this.level.dialogue.isActive()){
             this.player.Update(this.level.rooms, this.guards);
             for (let i = 0; i < this.guards.length; i++) {
                 if (!this.guards[i].alive) {
@@ -48,7 +48,6 @@ class GameScreen extends GUI {
         this.DrawDamageSpikes();
         this.level.dialogue.Draw()
         //damage spikes
-        pop()
         super.Draw(x, y);
     }
     DrawDamageSpikes() {
@@ -94,8 +93,8 @@ class GameScreen extends GUI {
     }
     keyPressed(key) {
         if (key == " ") {
-            if(this.level.dialogue.isdialogueing){
-                this.level.dialogue.d ++;
+            if(this.level.dialogue.isActive()){
+                this.level.dialogue.Advance();
             } else {
                 this.player.Jump();
             }
