@@ -562,8 +562,8 @@ class Area51 extends Level {
     constructor() {
         super();
         this.song = Assets.music.fifty1
-        this.spawnpointx = 3;
-        this.spawnpointy = 0;
+        this.spawnpointx = 5;
+        this.spawnpointy = 5;
         this.rooms = []
 
         this.rooms.push(new MediumHelipad(5, 5));
