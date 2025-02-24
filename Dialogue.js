@@ -16,7 +16,7 @@ class Dialogue {
         }
     }
     Draw() {
-        this.charsToShow += deltaTime / 100;
+        this.charsToShow += deltaTime / 50;
         push()
         noStroke();
         fill(0)

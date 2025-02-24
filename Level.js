@@ -17,7 +17,7 @@ class University extends Level {
         this.rooms.push(new EscapeRoom(0,1));
         
         this.song = Assets.music.entergoo;
-        let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallClassroom, SmallClassroom, SmallClassroom];
+        let possibleSmallRooms = [SmallOffice, SmallCafeteria, SmallOffice, SmallOffice, SmallClassroom];
 
         this.spawnpointx = -1;
         this.spawnpointy = 0;
@@ -147,7 +147,7 @@ class Skyscraper extends Level {
         this.rooms.push(new MediumHelipad(1, 8));
         this.rooms.push(new EscapeRoom(4,8));
 
-        let possibleSmallRooms = [SmallCafeteria, SmallCafeteria, SmallOffice, SmallOffice, SmallOffice, SmallOffice];
+        let possibleSmallRooms = [SmallCafeteria, SmallOffice, SmallOffice, SmallOffice];
 
         this.spawnpointx = 2;
         this.spawnpointy = 7;
@@ -160,7 +160,7 @@ class Skyscraper extends Level {
                         new MeleeScientist(3, 4, 3, 100),
                         new MeleeGradStudent(1, 2, 7, 60), 
                        new MeleeGradStudent(3, 4, 7, 100), 
-                       new MeleePolice(6, 7, 6, 160)]
+                       new MeleePolice(5, 6, 6, 160)]
 
         let smallRoomPositions = [
             { x: 3, floor: 3 },

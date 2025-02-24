@@ -7,7 +7,7 @@ class VentRoom extends GameRoom{
         this.objects.push(new HorizontalSurface(0,110,375,false))
         this.objects.push(new HorizontalSurface(180,300,250,false))
         this.objects.push(new HorizontalSurface(180,300,375,false))
-        this.objects.push(new HorizontalSurface(110,190,510))
+        this.objects.push(new HorizontalSurface(110,190,505))
 
     }
 }

@@ -29,9 +29,9 @@ class RangedPolice extends Enemy {
         console.log("Attacked")
 
         if (this.x > player.x) {
-            this.bullet = new Bullet(this.x - 20, this.y + 5, -5);
+            this.bullet = new Bullet(this.x - 20, this.y + 10, -5);
         } else {
-            this.bullet = new Bullet(this.x + 20, this.y + 5, 5);
+            this.bullet = new Bullet(this.x + 20, this.y + 10, 5);
         }
     }
 
@@ -56,7 +56,7 @@ class Bullet {
         this.x = x;
         this.y = y;
         this.w = 20
-        this.h = 30;
+        this.h = 25;
         this.velocity = velocity;
         this.used = false;
     }

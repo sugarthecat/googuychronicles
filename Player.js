@@ -23,10 +23,14 @@ class Player {
         this.dead = false;
         this.won = false;
         this.beakerCount = 0;
+        this.iTimeLeft = 0;
     }
     Update(rooms, enemies) {
         if (this.eatingEnemyTime >= 0) {
             this.eatingEnemyTime -= deltaTime / 1000
+        }
+        if (this.iTimeLeft >= 0) {
+            this.iTimeLeft -= deltaTime / 1000
         }
         this.UpdatePosition(rooms, enemies);
         this.UpdateHealth(rooms, enemies);
@@ -465,9 +469,15 @@ class Player {
         this.aniFrame = this.aniFrame % 2;
     }
     TakeDamage(dmg) {
+        if(this.iTimeLeft > 0){
+            return;
+        }
         this.health -= dmg;
         if (dmg > 0) {
             this.healingRate = 0;
+        }
+        if(dmg >= 1){
+            this.iTimeLeft = 0.8;
         }
     }
 }

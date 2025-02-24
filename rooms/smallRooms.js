@@ -51,6 +51,7 @@ class SmallHallway extends SmallRoom {
 class MediumMeetingRoom extends MediumRoom {
     constructor(x, floor) {
         super(x, floor, Assets.rooms.meetingroom)
+        this.objects.push(new HorizontalSurface(120,500,190))
     }
 }
 class MediumAbandonedLibrary extends MediumRoom {
