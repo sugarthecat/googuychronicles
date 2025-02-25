@@ -9,6 +9,9 @@ class EndScreen extends GUI {
         this.elements = [
 
         ]
+        Assets.music.entergoo.stop()
+        Assets.music.robot.stop()
+        Assets.music.fifty1.stop()
     }
     Draw(x, y) {
         this.timeCooldown += deltaTime / 1000;

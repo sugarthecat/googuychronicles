@@ -2,8 +2,11 @@ class GameScreen extends GUI {
     constructor() {
         super();
     }
-    
+
     Reset(Level) {
+        
+
+
         this.level = Level;
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
@@ -25,10 +28,10 @@ class GameScreen extends GUI {
                 this.guards[i].Update(this.player)
             }
         }
-        if(this.player.dead){
+        if (this.player.dead) {
             screenOn = "death"
             screens.death.Reset()
-        }else if(this.player.won){
+        } else if (this.player.won) {
             screenOn = "win"
             screens.win.Reset()
         }
@@ -43,7 +46,7 @@ class GameScreen extends GUI {
         translate(this.camera.x, this.camera.y)
 
         //After the translation. This is relative to the player. 
-        this.level.Draw()
+        this.level.Draw(this.camera.x,this.camera.y)
         fill(0, 0, 255)
         for (let i = 0; i < this.gooStains.length; i++) {
             this.gooStains[i].Draw()
