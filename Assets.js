@@ -28,6 +28,7 @@ class Assets {
         this.rooms.widevent = loadImage("assets/widevent.png")
         this.rooms.staircase = loadImage("assets/staircase.png")
         this.rooms.ventpath = loadImage("assets/ventpath.png")
+        this.rooms.ventpath2 = loadImage("assets/ventpath2.png")
         this.rooms.emptyroom = loadImage("assets/emptyroom.png")
         this.entities.midAirGooGuy = loadImage("assets/googuymidair.png")
         this.entities.wallcracks = loadImage("assets/crack.png")

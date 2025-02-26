@@ -82,7 +82,7 @@ class University extends Level {
         ]
         for (let i = 0; i < ventPositions.length; i++){
             let pos = ventPositions[i];
-            this.rooms.push(new VentRoom(pos.x, pos.floor));
+            this.rooms.push(new VentRoom2(pos.x, pos.floor));
         }
 
         let wallsPositions = [
