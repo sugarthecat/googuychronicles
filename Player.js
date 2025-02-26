@@ -354,11 +354,9 @@ class Player {
                     if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
                         newX = room.x + surface.x1 - this.size / 2
                         this.hVelocity = 0
-                        this.vertVelocity = 0
                     } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
-                        this.vertVelocity = 0
                     }
                 }
             }
