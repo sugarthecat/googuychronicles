@@ -1,6 +1,9 @@
 class Enemy {
 
-    constructor(patrolXStart, patrolXEnd, floor, spritesheet = Assets.spritesheets.armyguy, minDist = 100, maxDist = 250, speed = 120) {  //same as player pos
+    constructor(
+        patrolXStart, patrolXEnd, floor, spritesheet = Assets.spritesheets.armyguy, minDist = 100, maxDist = 250, speed = 120,
+        attentionSpan = 5, stunTime = 1
+    ) {  //same as player pos
         this.x = random(patrolXStart * 350, patrolXEnd * 350); //spawns randomly within the patrol spot
         this.spritesheet = spritesheet;
         this.xStart = patrolXStart * 350 + 350 / 2;
@@ -17,7 +20,8 @@ class Enemy {
         this.spottedPlayer = false;
         this.facingRight = true;
         this.alive = true;
-
+        this.attentionSpan = attentionSpan;
+        this.stun = stunTime;
         this.walkingProgress = 0;
     }
 
@@ -25,12 +29,12 @@ class Enemy {
         let distToPlayer = abs(this.x - player.x)  //X dist
         let yDist = abs(this.y - player.y)
         if (this.spottedPlayer) {
-            if (yDist > 100 || distToPlayer > 400) {  //if it cannot see the player, increase lost player time by 1 second each
+            if (yDist > this.h / 2 + player.y / 2 || distToPlayer > 400) {  //if it cannot see the player, increase lost player time by 1 second each
                 this.lostPlayerTimer += deltaTime / 1000;
             } else {
                 this.lostPlayerTimer = 0;
             }
-            if (this.lostPlayerTimer > 5) {   //stun the enemy for 2 seconds
+            if (this.lostPlayerTimer > this.attentionSpan) {   //stun the enemy for 2 seconds
                 this.stunTime = 2;
                 this.spottedPlayer = false
             }
@@ -83,8 +87,8 @@ class Enemy {
             }
         }
     }
-    ResetCooldown() {
-        this.stunTime = 1
+    Stun() {
+        this.stunTime = this.stun
     }
     Draw() {
         push()
@@ -104,7 +108,7 @@ class Enemy {
     }
     spotPlayer() {
         if (!this.spottedPlayer) {
-            this.ResetCooldown();
+            this.Stun();
         }
         this.spottedPlayer = true
     }

@@ -83,11 +83,11 @@ class Player {
                 //no y-overlap
 
                 if (this.x < enemies[i].x && !enemies[i].facingRight) {
-                    enemies[i].ResetCooldown();
+                    enemies[i].Stun();
                     this.TakeDamage(1)
                 }
                 if (this.x > enemies[i].x && enemies[i].facingRight) {
-                    enemies[i].ResetCooldown();
+                    enemies[i].Stun();
                     this.TakeDamage(1)
                 }
                 this.vertVelocity = -100;

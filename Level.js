@@ -607,25 +607,25 @@ class Area51 extends Level {
         this.guards = [ 
             new MeleeGradStudent(5, 5, 5, 50),
 
-            new MeleePolice(5, 6, 4, 160),
+            new MeleeArmy(5, 6, 4),
             new MeleeScientist(5, 6, 4, 200),  //furnace
-            new RangedPolice(2, 3, 4, 20),
+            new RangedArmy(2, 3, 4),
 
 
             new MeleeScientist(5, 6, 3, 200),
             new MeleeScientist(3, 4, 3, 100),
 
 
-            new RangedPolice(2, 3, 2, 100),
+            new RangedArmy(2, 3, 2, 100),
             new MeleeScientist(1, 2, 2, 150),
             new MeleeScientist(1, 2, 2, 150),
-            new RangedPolice(1, 2, 2, 100),
-            new RangedPolice(8, 9, 2, 60),
+            new RangedArmy(1, 2, 2, 100),
+            new RangedArmy(8, 9, 2, 60),
             new MeleeScientist(3, 4, 2, 300),
 
-            new RangedPolice(1, 2, 1, 70),
-            new MeleePolice(2, 3, 1, 500), //last floor
-            new RangedPolice(3, 4, 1, 200),
+            new RangedArmy(1, 2, 1),
+            new MeleeArmy(2, 3, 1), //last floor
+            new RangedArmy(3, 4, 1),
             
 
            

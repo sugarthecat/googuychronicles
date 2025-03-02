@@ -1,6 +1,7 @@
-class RangedPolice extends Enemy {
-    constructor(patrolXStart, patrolXEnd, floor) {
-        super(patrolXStart, patrolXEnd, floor, Assets.spritesheets.police, 100, 200, 100)
+class RangedEnemy extends Enemy {
+    constructor(patrolXStart, patrolXEnd, floor, spritesheet, minDist = 100, maxDist = 250, speed = 120,
+        attentionSpan = 5, stunTime = 1) {
+        super(patrolXStart, patrolXEnd, floor, spritesheet, minDist, maxDist, speed, attentionSpan, stunTime)
         this.shooting_cooldown = 3; //3 sec
         this.bullet = null;
     }
@@ -21,13 +22,11 @@ class RangedPolice extends Enemy {
             this.bullet.updateXPos()  //continuously updates
         }
     }
-    spotPlayer(){
+    spotPlayer() {
         super.spotPlayer();
-        this.shooting_cooldown =1
+        this.shooting_cooldown = 1
     }
     Shoot(player) {
-        console.log("Attacked")
-
         if (this.x > player.x) {
             this.bullet = new Bullet(this.x - 20, this.y + 10, -5);
         } else {
@@ -51,6 +50,18 @@ class RangedPolice extends Enemy {
         }
     }
 }
+
+class RangedPolice extends RangedEnemy {
+    constructor(patrolXStart, patrolXEnd, floor) {
+        super(patrolXStart, patrolXEnd, floor, Assets.spritesheets.police)
+    }
+}
+class RangedArmy extends RangedEnemy {
+    constructor(patrolXStart, patrolXEnd, floor) {
+        super(patrolXStart, patrolXEnd, floor, Assets.spritesheets.armyguy,150,300,180,8,0.8)
+    }
+}
+
 class Bullet {
     constructor(x, y, velocity) {
         this.x = x;
