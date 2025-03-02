@@ -4,9 +4,6 @@ class GameScreen extends GUI {
     }
 
     Reset(Level) {
-        
-
-
         this.level = Level;
         this.player = new Player(this.level.spawnpointx, this.level.spawnpointy);
         this.elements = []
@@ -14,6 +11,9 @@ class GameScreen extends GUI {
         this.gooStains = []
         this.camera = { x: 0, y: 0 }
         this.level.song.loop()
+    }
+    RestartLevel(){
+        this.Reset(new this.level.constructor(false))
     }
     Draw(x, y) {
         if (!this.level.dialogue.isActive() && deltaTime < 1000) {

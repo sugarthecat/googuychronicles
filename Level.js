@@ -4,6 +4,9 @@ class Level {
         this.song;
     }
     Draw(camerax,cameray) {
+        while(this.dialogue && this.dialogue.isActive() && !this.playDialogue){
+            this.dialogue.Advance()
+        }
         let properCameraY = (-cameray) - (SCREEN_DIMENSIONS.y - TARGET_SCREEN_DIMENSIONS.y) /2 
         let properCameraX = (-camerax) - (SCREEN_DIMENSIONS.x - TARGET_SCREEN_DIMENSIONS.x) /2 
         for (let i = 0; i < this.rooms.length; i++) {
@@ -25,7 +28,7 @@ class Level {
 }
 
 class University extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.rooms = []
         this.rooms.push(new EscapeRoom(0,1));
@@ -149,11 +152,14 @@ class University extends Level {
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
         this.dialogue = new UniversityDialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }
 
 class Skyscraper extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.song = Assets.music.entergoo
         this.rooms = []
@@ -335,11 +341,14 @@ class Skyscraper extends Level {
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
         this.dialogue = new SkyscraperDialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }
 
 class MilitaryFort extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.song = Assets.music.robot
         this.rooms = []
@@ -413,11 +422,14 @@ class MilitaryFort extends Level {
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
         this.dialogue = new MilitaryFortDialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }
 
 class RobotFactory extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.song = Assets.music.robot
         this.spawnpointx = 2;
@@ -491,11 +503,14 @@ class RobotFactory extends Level {
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
         this.dialogue = new RobotFactoryDialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }
 
 class UndergroundBunker extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.song = Assets.music.fifty1
         this.spawnpointx = 2;
@@ -569,11 +584,14 @@ class UndergroundBunker extends Level {
             this.rooms.push(new Floor(pos.x, pos.floor));
         }
         this.dialogue = new UndergroundBunkerDialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }
 
 class Area51 extends Level {
-    constructor() {
+    constructor(playDialogue=true) {
         super();
         this.song = Assets.music.fifty1
         this.spawnpointx = 5;
@@ -769,5 +787,8 @@ class Area51 extends Level {
         }
         
         this.dialogue = new Area51Dialogue();
+        if(playDialogue){
+            this.dialogue.SkipToEnd();
+        }
     }
 }

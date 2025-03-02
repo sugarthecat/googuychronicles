@@ -8,7 +8,7 @@ class LevelSelectScreen extends GUI{
             new Button(25, 200, 150, 50, "*Coming Soon!*", function(){screenOn = "game", screens.game.Reset( new University())}),
             new Button(225, 200, 150, 50, "*Coming Soon!*", function(){screenOn = "game", screens.game.Reset( new University())}),
             new Button(425, 200, 150, 50, "Area51", function(){screenOn = "game", screens.game.Reset( new Area51())}),
-            new Button(10, 10, 100, 50, "Back", function(){screenOn = "title", screens.game.Reset( new University())}),
+            new Button(10, 10, 100, 50, "Back", function(){screenOn = "title"}),
         ]
     }
     Draw(x,y){

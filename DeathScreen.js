@@ -25,11 +25,6 @@ class EndScreen extends GUI {
         textAlign(CENTER)
         textFont("Courier New")
         text(this.message, 300, 180)
-        if (this.timeCooldown > 2 && this.elements.length < 1) {
-            this.elements = [
-                new Button(200, 320, 200, 50, "Return",function(){screenOn = "levelselect"})
-            ]
-        }
         pop()
         super.Draw(x, y);
     }
@@ -38,9 +33,27 @@ class DeathScreen extends EndScreen {
     constructor() {
         super("You Died.");
     }
+    Draw(x,y){
+        super.Draw(x,y)
+        if (this.timeCooldown > 2 && this.elements.length < 1) {
+            this.elements = [
+                new Button(50, 320, 200, 50, "Restart Level",function(){screenOn = "game"; screens.game.RestartLevel()}),
+                new Button(350, 320, 200, 50, "Return",function(){screenOn = "levelselect"})
+            ]
+        }
+    }
 }
 class WinScreen extends EndScreen {
     constructor() {
         super("Escaped!");
+    }
+    Draw(x,y){
+        super.Draw(x,y)
+        
+        if (this.timeCooldown > 2 && this.elements.length < 1) {
+            this.elements = [
+                new Button(200, 320, 200, 50, "Return",function(){screenOn = "levelselect"})
+            ]
+        }
     }
 }

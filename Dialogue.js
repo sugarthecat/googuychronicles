@@ -15,6 +15,11 @@ class Dialogue {
             this.charsToShow = 0;
         }
     }
+    SkipToEnd(){
+        while(this.isActive()){
+            this.lineOn++;
+        }
+    }
     Draw() {
         this.charsToShow += deltaTime / 50;
         push()
