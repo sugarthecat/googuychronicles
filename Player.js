@@ -204,7 +204,7 @@ class Player {
                     if (surface.x2 + room.x <= this.x - this.size / 2 || surface.x1 + room.x >= this.x + this.size / 2) {
                         continue;
                     }
-                    //Collide on some Hsurface below the player
+                    //Bottomside horizontal collision
                     if (this.y + this.size / 2 <= surface.y + room.y && newY + this.size / 2 > surface.y + room.y) {
                         this.y = room.y + surface.y - this.size / 2
                         newY = this.y;
@@ -216,7 +216,7 @@ class Player {
                         this.hanging = false;
                         
                     }
-                    //Collide on some Hsurface above the player
+                    //Topside hang collision
                     if (this.y - this.size / 2 > surface.y + room.y && newY - this.size / 2 <= surface.y + room.y) {
                         this.y = room.y + surface.y + this.size / 2 + 0.5
                         newY = this.y;
@@ -233,16 +233,18 @@ class Player {
                 }
 
                 if (surface instanceof VerticalSurface) {
-
+                    //If no x-overlap, skip the room
                     if (surface.x + room.x <= this.x - this.size / 2 || surface.x + room.x >= this.x + this.size / 2) {
                         continue;
                     }
-
+                    //top-side edge collisiom
                     if (this.y + this.size / 2 <= surface.y1 + room.y && newY + this.size / 2 > surface.y1 + room.y) {
                         newY = room.y + surface.y1 - this.size / 2;
                         this.vertVelocity = 0
                         this.hVelocity = 0;
-                    } else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
+                    } 
+                    //bottom-side edge collisiom
+                    else if (this.y - this.size / 2 >= surface.y2 + room.y && newY - this.size / 2 < surface.y2 + room.y) {
                         newY = room.y + surface.y2 + this.size / 2;
                         this.vertVelocity = 0;
                         this.hVelocity = 0;
@@ -313,6 +315,7 @@ class Player {
             for (let j = 0; j < room.objects.length; j++) {
                 let surface = room.objects[j];
                 if (surface instanceof VerticalSurface) {
+                    //if they have no y-overlap, we dont need to worry about it
                     if (surface.y2 + room.y <= this.y - this.size / 2 || surface.y1 + room.y >= this.y + this.size / 2) {
                         continue;
                     }
@@ -328,8 +331,8 @@ class Player {
                             this.hanging = { horizontal: false, y1: surface.y1 + room.y, y2: surface.y2 + room.y, x: surface.x + room.x }
                         }
                     }
+                    //right-side hang collision
                     else if (this.x - this.size / 2 >= surface.x + room.x && newX - this.size / 2 < surface.x + room.x) {
-                        //Right-side hang collision
                         newX = room.x + surface.x + this.size / 2
                         if (this.hVelocity != 0) {
                             Assets.sound.land.play()
@@ -344,17 +347,19 @@ class Player {
             }
             for (let j = 0; j < room.objects.length; j++) {
                 let surface = room.objects[j];
-                //only deals with surfaces / collision
+                //only deals with horizontal surfaces / collision
                 if (surface instanceof HorizontalSurface) {
                     //if no y-overlap for the surface+, skip
                     if (abs(room.y + surface.y - this.y) >= this.size / 2) {
                         continue;
                     }
-
+                    //right-side vertical edge collision
                     if (this.x + this.size / 2 <= surface.x1 + room.x && newX + this.size / 2 > surface.x1 + room.x) {
                         newX = room.x + surface.x1 - this.size / 2
                         this.hVelocity = 0
-                    } else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
+                    } 
+                    //left-side vertical edge collision
+                    else if (this.x - this.size / 2 >= surface.x2 + room.x && newX - this.size / 2 < surface.x2 + room.x) {
                         newX = room.x + surface.x2 + this.size / 2
                         this.hVelocity = 0
                     }
